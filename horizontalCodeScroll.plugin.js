@@ -6,7 +6,7 @@ var HorizontalCodeScroll = (function() {
 
 		getDescription() { return "Plugin for horizontal scrolling in Codeblocks."; }
 
-		getAuthor() { return "Mashiro-chan"; }
+		getAuthor() { return "Mashiro-chan, spthiel"; }
 
 		getVersion() { return "1.0.0"; }
 
@@ -24,7 +24,6 @@ var HorizontalCodeScroll = (function() {
 	}
 
 	function getCodeBelowMouse(e) {
-
 		var x = e.clientX,
 			y = e.clientY,
 			elementMouseIsOver = document.elementFromPoint(x, y);
@@ -34,13 +33,14 @@ var HorizontalCodeScroll = (function() {
 
 		while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
 			currentStack = currentStack + 1;
-			if (elementMouseIsOver.tagName == 'CODE' && hasScrollBar(elementMouseIsOver)) {
+			if (elementMouseIsOver.tagName == 'CODE') {
+				if (!hasScrollBar(elementMouseIsOver)) {
+					return null;
+				}
 				return elementMouseIsOver;
 			}
-
 			elementMouseIsOver = elementMouseIsOver.parentElement;
 		}
-
 		return null;
 	}
 
