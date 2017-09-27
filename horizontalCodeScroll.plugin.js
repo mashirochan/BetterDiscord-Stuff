@@ -35,7 +35,7 @@ var HorizontalCodeScroll = (function() {
 		while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
 			currentStack = currentStack + 1;
 			if (elementMouseIsOver.tagName == 'CODE') {
-				if(hasScrollBar(elementMouseIsOver)){
+				if(!hasScrollBar(elementMouseIsOver)){
 					return null;
 				}
 
