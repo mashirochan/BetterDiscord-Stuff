@@ -24,7 +24,6 @@ var HorizontalCodeScroll = (function() {
 	}
 
 	function getCodeBelowMouse(e) {
-
 		var x = e.clientX,
 			y = e.clientY,
 			elementMouseIsOver = document.elementFromPoint(x, y);
@@ -35,16 +34,13 @@ var HorizontalCodeScroll = (function() {
 		while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
 			currentStack = currentStack + 1;
 			if (elementMouseIsOver.tagName == 'CODE') {
-				if(!hasScrollBar(elementMouseIsOver)){
+				if (!hasScrollBar(elementMouseIsOver)) {
 					return null;
 				}
-
 				return elementMouseIsOver;
 			}
-
 			elementMouseIsOver = elementMouseIsOver.parentElement;
 		}
-
 		return null;
 	}
 
