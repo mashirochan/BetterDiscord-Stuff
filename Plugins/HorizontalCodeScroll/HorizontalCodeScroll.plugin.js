@@ -19,8 +19,6 @@ var HorizontalCodeScroll = (function() {
 		stop() {
 			document.getElementById('app-mount').removeEventListener('mousewheel', scrollHorizontally);
 		}
-
-		onSwitch() {}
 	}
 
 	function getCodeBelowMouse(e) {
