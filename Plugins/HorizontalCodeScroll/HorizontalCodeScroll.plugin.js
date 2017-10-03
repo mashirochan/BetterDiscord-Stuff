@@ -15,22 +15,22 @@ var HorizontalCodeScroll = (function() {
 		}
 
 		start() {
-			document.getElementById('app-mount').addEventListener('mousewheel', this.scrollHorizontally, false);
+			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e));
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
 		stop() {
-			document.getElementById('app-mount').removeEventListener('mousewheel', this.scrollHorizontally);
+			$("*").off(".HorizontalCodeScroll");
 		}
 		
 		getCodeBelowMouse(e) {
-			var x = e.clientX,
+			let x = e.clientX,
 				y = e.clientY,
 				elementMouseIsOver = document.elementFromPoint(x, y);
 
-			var currentStack = 0;
-			var maxStack = 10;
+			let currentStack = 0;
+			let maxStack = 10;
 
 			while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
 				currentStack = currentStack + 1;
@@ -47,8 +47,8 @@ var HorizontalCodeScroll = (function() {
 
 		scrollHorizontally(e) {
 			e = window.event || e;
-			var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-			var elementToScroll = this.getCodeBelowMouse(e);
+			let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+			let elementToScroll = this.getCodeBelowMouse(e);
 			if (elementToScroll !== null) {
 				elementToScroll.scrollLeft -= (delta * 40);
 				e.preventDefault();
@@ -62,12 +62,12 @@ var HorizontalCodeScroll = (function() {
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
-				var ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
+				let ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
 				if (!ver) return;
 				ver = ver.toString().replace(/"/g, "");
 				this.remoteVersion = ver;
 				ver = ver.split(".");
-				var lver = this.getVersion().split(".");
+				let lver = this.getVersion().split(".");
 				if (ver[0] > lver[0]) this.hasUpdate = true;
 				else if (ver[0] == lver[0] && ver[1] > lver[1]) this.hasUpdate = true;
 				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) this.hasUpdate = true;
@@ -79,17 +79,17 @@ var HorizontalCodeScroll = (function() {
 		}
 
 		showUpdateNotice() {
-			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/tree/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js"
-			BdApi.clearCSS("pluginNoticeCSS")
-			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}")
-			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>'
+			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/tree/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
+			BdApi.clearCSS("pluginNoticeCSS");
+			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}");
+			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>';
 			if (!$('#pluginNotice').length)  {
 				$('.app.flex-vertical').children().first().before(noticeElement);
-				$('.win-buttons').addClass("win-buttons-notice")
+				$('.win-buttons').addClass("win-buttons-notice");
 				$('#pluginNoticeDismiss').on('click', () => {
 					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
 					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
-				})
+				});
 			}
 			let pluginNoticeID = this.getName() + '-notice';
 			let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
