@@ -8,7 +8,7 @@ var FixVersionSpacing = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.1"; }
+		getVersion() { return "1.0.2"; }
 
 		load() {
 			this.checkForUpdate();
