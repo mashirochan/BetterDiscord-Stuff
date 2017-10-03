@@ -1,4 +1,4 @@
-//META{"name":"Transparency","description":"A theme that utilizes a transparent Discord window.","author":"Mashiro-chan","version":"1.0"}*//
+//META { "name": "Transparency", "description": "A theme that utilizes a transparent Discord window.", "author": "Mashiro-chan", "version": "1.0.1"} *//
 
 /* fix for stupid discord updates */
 .layers,
@@ -1845,6 +1845,10 @@ input#help-query ::-webkit-input-placeholder {
 	background: rgba(114, 118, 125, 0.7);
 }
 
+#bd-settings-sidebar > span > span {
+	color: rgba(255, 255, 255, 0.3) !important;
+}
+
 /* custom css page */
 .content-region .CodeMirror,
 .content-region .cm-s-material .CodeMirror-gutters,
@@ -1892,7 +1896,19 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 .ui-standard-sidebar-view .bda-slist .bda-right button {
+	color: rgba(255, 255, 255, 0.9);
 	background: rgba(255, 98, 98, 0.7);
+	position: relative;
+	top: 65px;
+	left: 15px;
+}
+
+.ui-standard-sidebar-view .bda-slist .bda-right button:hover {
+	background: rgba(255, 98, 98, 0.9);
+}
+
+.ui-switch-wrapper {
+	float: right;
 }
 
 .cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(114, 137, 218);"],
@@ -1978,7 +1994,28 @@ input#help-query ::-webkit-input-placeholder {
 	border-radius: 8px 8px 8px 8px;
 }
 
+/*                                                       Better Formatting Redux                                       */
+.bf-toolbar {
+	display: none !important;
+}
+
 /*                                                             Server Hider                                            */
+/* settings */
+.ServerHiderResetBtn {
+	background-color: rgba(255, 98, 98, 0.7);
+	border-radius: 5px;
+	color: rgba(255, 255, 255, 0.9);
+	height: 30px !important;
+	position: relative;
+	left: 542px;
+	top: 40px;
+}
+
+.ServerHiderResetBtn:hover {
+	background-color: rgba(255, 98, 98, 0.9);
+}
+
+/* plugin */
 .serverhider-modal .modal-inner {
 	background-color: rgba(0, 0, 0, 0.5);
 	box-shadow: 0px 0px 0px;
