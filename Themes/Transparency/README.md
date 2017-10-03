@@ -1,6 +1,4 @@
-# Themes
-
-### Transparency
+# Transparency
 A full-conversion theme meant to take advantage of a transparent client to reveal whatever lovely desktop wallpaper you may have. The color scheme is centered around black, red, and white whenever possible. I still need to get around to editing icons!
 
 ![Channel Chat](https://i.imgur.com/109rkgO.png)
