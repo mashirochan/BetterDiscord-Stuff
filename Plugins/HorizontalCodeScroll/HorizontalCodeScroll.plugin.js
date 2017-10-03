@@ -8,7 +8,7 @@ var HorizontalCodeScroll = (function() {
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.0"; }
+		getVersion() { return "1.0.1"; }
 
 		load() {}
 
