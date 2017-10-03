@@ -1,4 +1,4 @@
-//META{"name":"FixVersionSpacing"}*//
+//META { "name": "FixVersionSpacing" } *//
 var FixVersionSpacing = (function() {
 
 	class FixVersionSpacing {
