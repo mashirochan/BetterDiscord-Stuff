@@ -6,7 +6,7 @@ A full-conversion theme meant to take advantage of a transparent client to revea
 ![Channel Chat](https://i.imgur.com/109rkgO.png)
 ![Friends Chat](https://i.imgur.com/UPvMxMJ.png)
 ![Settings](https://i.imgur.com/sDEUL8z.png)
-<img src="/TransparencyThemePreview.gif?raw=true">
+<img src="/Themes/Transparency/TransparencyThemePreview.gif?raw=true">
 ###### Enabling Client Transparency
 1. Open `index.js` located under `%LocalAppData%\Discord\<version number>\resources\app`
 2. Change `transparent` (line 498) to `true`
