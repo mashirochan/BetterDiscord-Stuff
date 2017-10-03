@@ -8,52 +8,97 @@ var HorizontalCodeScroll = (function() {
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.1"; }
+		getVersion() { return "1.0.2"; }
 
-		load() {}
+		load() {
+			this.checkForUpdate();
+		}
 
 		start() {
-			document.getElementById('app-mount').addEventListener('mousewheel', scrollHorizontally, false);
+			document.getElementById('app-mount').addEventListener('mousewheel', this.scrollHorizontally, false);
+			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
+			this.checkForUpdate();
 		}
 
 		stop() {
-			document.getElementById('app-mount').removeEventListener('mousewheel', scrollHorizontally);
+			document.getElementById('app-mount').removeEventListener('mousewheel', this.scrollHorizontally);
 		}
-	}
+		
+		getCodeBelowMouse(e) {
+			var x = e.clientX,
+				y = e.clientY,
+				elementMouseIsOver = document.elementFromPoint(x, y);
 
-	function getCodeBelowMouse(e) {
-		var x = e.clientX,
-			y = e.clientY,
-			elementMouseIsOver = document.elementFromPoint(x, y);
+			var currentStack = 0;
+			var maxStack = 10;
 
-		var currentStack = 0;
-		var maxStack = 10;
-
-		while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
-			currentStack = currentStack + 1;
-			if (elementMouseIsOver.tagName == 'CODE') {
-				if (!hasScrollBar(elementMouseIsOver)) {
-					return null;
+			while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
+				currentStack = currentStack + 1;
+				if (elementMouseIsOver.tagName == 'CODE') {
+					if (!this.hasScrollBar(elementMouseIsOver)) {
+						return null;
+					}
+					return elementMouseIsOver;
 				}
-				return elementMouseIsOver;
+				elementMouseIsOver = elementMouseIsOver.parentElement;
 			}
-			elementMouseIsOver = elementMouseIsOver.parentElement;
+			return null;
 		}
-		return null;
-	}
 
-	function scrollHorizontally(e) {
-		e = window.event || e;
-		var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-		var elementToScroll = getCodeBelowMouse(e);
-		if (elementToScroll !== null) {
-			elementToScroll.scrollLeft -= (delta * 40);
-			e.preventDefault();
+		scrollHorizontally(e) {
+			e = window.event || e;
+			var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+			var elementToScroll = this.getCodeBelowMouse(e);
+			if (elementToScroll !== null) {
+				elementToScroll.scrollLeft -= (delta * 40);
+				e.preventDefault();
+			}
 		}
-	}
 
-	function hasScrollBar(e) {
-		return e.scrollWidth > e.clientWidth;
+		hasScrollBar(e) {
+			return e.scrollWidth > e.clientWidth;
+		}
+		
+		checkForUpdate() {
+			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
+			$.get(githubRaw, (result) => {
+				var ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
+				if (!ver) return;
+				ver = ver.toString().replace(/"/g, "");
+				this.remoteVersion = ver;
+				ver = ver.split(".");
+				var lver = this.getVersion().split(".");
+				if (ver[0] > lver[0]) this.hasUpdate = true;
+				else if (ver[0] == lver[0] && ver[1] > lver[1]) this.hasUpdate = true;
+				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) this.hasUpdate = true;
+				else this.hasUpdate = false;
+				if (this.hasUpdate) {
+					this.showUpdateNotice();
+				}
+			});
+		}
+
+		showUpdateNotice() {
+			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/tree/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js"
+			BdApi.clearCSS("pluginNoticeCSS")
+			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}")
+			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>'
+			if (!$('#pluginNotice').length)  {
+				$('.app.flex-vertical').children().first().before(noticeElement);
+				$('.win-buttons').addClass("win-buttons-notice")
+				$('#pluginNoticeDismiss').on('click', () => {
+					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
+					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
+				})
+			}
+			let pluginNoticeID = this.getName() + '-notice';
+			let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
+			pluginNoticeElement.html('<a href="' + updateLink + '" target="_blank">' + this.getName() + '</a>');
+			if (!$('#' + pluginNoticeID).length) {
+				if ($('#outdatedPlugins').children('span').length) pluginNoticeElement.html(', ' + pluginNoticeElement.html());
+				$('#outdatedPlugins').append(pluginNoticeElement);
+			}
+		}
 	}
 
 	return HorizontalCodeScroll;
