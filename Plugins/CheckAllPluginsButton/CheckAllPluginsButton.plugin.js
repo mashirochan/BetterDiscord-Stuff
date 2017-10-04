@@ -2,13 +2,13 @@
 var CheckAllPluginsButton = (function() {
 
 	class CheckAllPluginsButton {
-		getName() { return "CheckAllPluginsButton"; }
+		getName() { return 'CheckAllPluginsButton'; }
 
-		getDescription() { return "Plugin that adds check all and uncheck all buttons to the plugins menu."; }
+		getDescription() { return 'Plugin that adds check all and uncheck all buttons to the plugins menu.'; }
 
-		getAuthor() { return "Mashiro-chan"; }
+		getAuthor() { return 'Mashiro-chan'; }
 
-		getVersion() { return "1.0.0"; }
+		getVersion() { return '1.0.1'; }
 
 		load() {
 			this.checkForUpdate();
@@ -21,13 +21,12 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		stop() {
-			$("*").off(".CheckAllPluginsButton");
+			$('*').off('.CheckAllPluginsButton');
 			$('.cap-check').remove();
 			$('.cap-uncheck').remove();
 		}	
 
 		addButtons() {
-			console.log('plugins clicked!');
 			setTimeout(function() {
 				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px;">Check All</button>`)
 					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px; margin-left: 8px;">Uncheck All</button>`);
@@ -35,17 +34,19 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		checkAllPlugins() {
-			console.log('check all clicked!');
 			$('input:checkbox:not(:checked)').trigger('click');
 		}
 
 		uncheckAllPlugins() {
-			console.log('uncheck all clicked!');
-			$('input:checkbox:checked').trigger('click');
+			$('.bda-slist').find('li').each((_, entry) => {
+				if ($(entry).find('.bda-name').text().indexOf('CheckAllPluginsButton') == -1) {
+					$(entry).find('input:checkbox:checked').trigger('click');
+				}
+			});
 		}
 
 		checkForUpdate() {
-			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
+			const githubRaw = 'https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/' + this.getName() + '/' + this.getName() + '.plugin.js';
 			$.get(githubRaw, (result) => {
 				var ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
 				if (!ver) return;
@@ -64,17 +65,17 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		showUpdateNotice() {
-			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/blob/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js"
-			BdApi.clearCSS("pluginNoticeCSS")
-			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}")
-			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>'
+			const updateLink = 'https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/blob/master/Plugins/' + this.getName() + '/' + this.getName() + '.plugin.js';
+			BdApi.clearCSS('pluginNoticeCSS');
+			BdApi.injectCSS('pluginNoticeCSS', '#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}');
+			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>';
 			if (!$('#pluginNotice').length)  {
 				$('.app.flex-vertical').children().first().before(noticeElement);
-				$('.win-buttons').addClass("win-buttons-notice")
+				$('.win-buttons').addClass('win-buttons-notice');
 				$('#pluginNoticeDismiss').on('click', () => {
-					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
+					$('.win-buttons').animate({ top: 0 }, 400, 'swing', () => { $('.win-buttons').css('top', '').removeClass('win-buttons-notice'); });
 					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
-				})
+				});
 			}
 			let pluginNoticeID = this.getName() + '-notice';
 			let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
