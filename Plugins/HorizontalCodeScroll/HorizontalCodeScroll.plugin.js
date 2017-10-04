@@ -50,9 +50,15 @@ var HorizontalCodeScroll = (function() {
 			let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 			let elementToScroll = this.getCodeBelowMouse(e);
 			if (elementToScroll !== null) {
-				elementToScroll.scrollLeft -= (delta * 40);
+				elementToScroll.scrollLeft -= (delta * this.getScrollMultipler(elementToScroll));
 				e.preventDefault();
 			}
+		}
+
+		getScrollMultipler (codeblock) {
+			
+			var prototypecodeblock = $(codeblock);
+			return prototypecodeblock.outerWidth()*0.8;
 		}
 
 		hasScrollBar(e) {
