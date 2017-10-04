@@ -8,14 +8,14 @@ var FixVersionSpacing = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.3"; }
+		getVersion() { return "1.0.4"; }
 
 		load() {
 			this.checkForUpdate();
 		}
 
 		start() {
-			$('.button-1aU9q1').on('click.FixVersionSpacing', this.addSpaces);
+			$('.button-1aU9q1:not([style])').on('click.FixVersionSpacing', this.addSpaces);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
