@@ -15,22 +15,35 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		start() {
-			$('.button-1aU9q1').on('click.CheckAllPluginsButton', this.addSpaces);
+			$(document).on('click.CheckAllPluginsButton', '#bd-settings-sidebar .ui-tab-bar-item:contains("Plugins")', this.addButtons.bind(this));
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
-		
+
 		stop() {
 			$("*").off(".CheckAllPluginsButton");
+			$('.cap-check').remove();
+			$('.cap-uncheck').remove();
 		}	
-		
-		addSpaces() {
+
+		addButtons() {
+			console.log('plugins clicked!');
 			setTimeout(function() {
-				let e = document.querySelector('#bd-settings-sidebar > span > span');
-				e.innerHTML = e.innerHTML.replace('by', ' by ');
-			}, 500);
+				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px;">Check All</button>`)
+					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px; margin-left: 8px;">Uncheck All</button>`);
+			}, 100);
 		}
-	
+
+		checkAllPlugins() {
+			console.log('check all clicked!');
+			$('input:checkbox:not(:checked)').trigger('click');
+		}
+
+		uncheckAllPlugins() {
+			console.log('uncheck all clicked!');
+			$('input:checkbox:checked').trigger('click');
+		}
+
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
