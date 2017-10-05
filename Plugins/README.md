@@ -1,6 +1,8 @@
 # Plugins
 #### Here you can find all of my plugins that I have made for BetterDiscord. I try my best to keep them all up to date - feel free to message me on Discord if you ever have any problems though!
+
 ***
+
 ### Horizontal Code Scroll - [Download](https://betterdiscord.net/ghdl?id=1021)
 ###### Changes code blocks so that their overflow is hidden, and can be scrolled through horizontally with the mouse wheel.
 <img src="/Plugins/HorizontalCodeScroll/HorizontalCodeScrollPreview.gif?raw=true">
