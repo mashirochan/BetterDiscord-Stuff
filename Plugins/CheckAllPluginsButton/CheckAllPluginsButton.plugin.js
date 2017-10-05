@@ -15,7 +15,7 @@ var CheckAllPluginsButton = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.4"; }
+		getVersion() { return "1.0.5"; }
 
 		load() {
 			this.checkForUpdate();
@@ -33,6 +33,7 @@ var CheckAllPluginsButton = (function() {
 			$('*').off('.CheckAllPluginsButton');
 			$('.cap-check').remove();
 			$('.cap-uncheck').remove();
+			BdApi.clearCSS(this.stylesheet_name);
 		}	
 
 		addButtons() {
