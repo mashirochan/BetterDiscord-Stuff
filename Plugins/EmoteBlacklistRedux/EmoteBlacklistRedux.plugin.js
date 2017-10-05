@@ -2,6 +2,14 @@
 var EmoteBlacklistRedux = (function() {
 
 	class EmoteBlacklistRedux {
+		
+		constructor() {
+			this.stylesheet_name = "ebr_stylesheet";
+			this.stylesheet = `.blacklist {display: none; position: absolute; width: 15px; height: 15px; left: -7px; top: -7px; background-color: #303030; border: none; border-radius: 5px; cursor: pointer}
+			.blacklist:after {position: absolute; top: 0; bottom: 0; left: 0; right: 0; content: '\\d7'; font-size: 19px; color: #FFF; line-height: 15px; text-align: center}
+			.emotewrapper:hover .blacklist {display: block}`;
+		}
+		
 		getName() { return "EmoteBlacklistRedux"; }
 
 		getDescription() { return "A re-creation of Jiik's Emote Blacklist, now with user friendliness in mind."; }
@@ -10,57 +18,111 @@ var EmoteBlacklistRedux = (function() {
 
 		getVersion() { return "1.0.0"; }
 
-		load() {
-			this.checkForUpdate();
-		}
+		load() { }
 
 		start() {
+			window.ebrEnabled = true;			
+			
+			this.resetBemotes();
+			
+			$(document).on('mouseover.EmoteBlacklistRedux', '.emotewrapper', this.addButton.bind(this));
+			
+			BdApi.clearCSS(this.stylesheet_name);
+			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
+			
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
-			this.checkForUpdate();
 		}
 
 		stop() {
-			
+			window.ebrEnabled = false;
+			$('.blacklist').remove();
+			$('*').off('.EmoteBlacklistRedux');
+			BdApi.clearCSS(this.stylesheet_name);
+			this.clear();
 		}
+		
+		resetBemotes() {
+			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
 
-		checkForUpdate() {
-			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
-			$.get(githubRaw, (result) => {
-				let ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
-				if (!ver) return;
-				ver = ver.toString().replace(/"/g, "");
-				this.remoteVersion = ver;
-				ver = ver.split(".");
-				let lver = this.getVersion().split(".");
-				if (ver[0] > lver[0]) this.hasUpdate = true;
-				else if (ver[0] == lver[0] && ver[1] > lver[1]) this.hasUpdate = true;
-				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) this.hasUpdate = true;
-				else this.hasUpdate = false;
-				if (this.hasUpdate) {
-					this.showUpdateNotice();
-				}
+			if (blacklist === null) return console.log('EmoteBlacklistRedux: emote blacklist is empty!');
+			blacklist.forEach(emote => {
+				this.removeEmote(emote);
+				this.addEmote(emote);
 			});
 		}
+	
+		addButton() {
+			$('.blacklist').remove();
+			$('.emotewrapper').prepend(`<button class="blacklist" onclick=BdApi.getPlugin("EmoteBlacklistRedux").test() title="Blacklist">`);
+		}
+		
+		test() {
+			console.log(true);
+		}
+		
+		addToBlacklist() {
+			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			let emote = $('.emotewrapper .emote').attr('alt');
+			
+			if (!blacklist.includes(emote)) blacklist.push(emote);
+			
+			bdPluginStorage.set("EmoteBlacklistRedux", "blacklist", blacklist.filter(Boolean));
+			this.resetBemotes();
+			
+			console.log('window.bemotes: ' + window.bemotes);
+		}
+		
+		addEmote(emote) {
+			window.bemotes.push(emote);
+		}
 
-		showUpdateNotice() {
-			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/blob/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
-			BdApi.clearCSS("pluginNoticeCSS");
-			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}");
-			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>';
-			if (!$('#pluginNotice').length)  {
-				$('.app.flex-vertical').children().first().before(noticeElement);
-				$('.win-buttons').addClass("win-buttons-notice");
-				$('#pluginNoticeDismiss').on('click', () => {
-					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
-					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
+		removeEmote(emote) {
+			let index = window.bemotes.indexOf(emote);
+			if (index > -1) {
+				window.bemotes.splice(index, 1);
+			}
+		}
+		
+		clear() {
+			let emotes = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			 
+			if (emotes === null) return;
+			emotes.forEach(emote => {
+				this.removeEmote(emote);
+			});
+		}
+		
+		getSettingsPanel() {
+			let emotes = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist").filter(Boolean);
+
+			let html = '';
+			html += '<h2 style="color: #fff">Emote Blacklist Redux</2>';
+			html += '<textarea id="ebr-textarea" style="width:100%; min-height:200px;">';
+			if (emotes !== null) {
+				emotes.forEach(item => {
+					html += item + "\n";
 				});
 			}
-			let pluginNoticeID = this.getName() + '-notice';
-			let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
-			pluginNoticeElement.html('<a href="' + updateLink + '" target="_blank">' + this.getName() + '</a>');
-			if (!$('#' + pluginNoticeID).length) {
-				if ($('#outdatedPlugins').children('span').length) pluginNoticeElement.html(', ' + pluginNoticeElement.html());
-				$('#outdatedPlugins').append(pluginNoticeElement);
+			html += '</textarea>';
+			html += '<button onclick=BdApi.getPlugin("EmoteBlacklistRedux").save()>Save</button>';
+			html += '<span style="color: #fff">Add emote names here to blacklist (1 per line)</span>';
+			return html;
+		}
+		
+		save() {
+			this.clear();
+			let blacklist = [];
+			
+			$("#ebr-textarea").val().split("\n").forEach(item => { 
+				blacklist.push(item);
+			});
+			
+			let clean_blacklist = blacklist.filter(Boolean);
+			
+			
+			bdPluginStorage.set("EmoteBlacklistRedux", "blacklist", blacklist);
+			if (window.ebrEnabled) {
+				this.resetBemotes();
 			}
 		}
 	}
