@@ -8,7 +8,7 @@ var HorizontalCodeScroll = (function() {
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.3"; }
+		getVersion() { return "1.0.4"; }
 
 		load() {
 			this.checkForUpdate();
@@ -16,12 +16,15 @@ var HorizontalCodeScroll = (function() {
 
 		start() {
 			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e));
+			BdApi.clearCSS("codescrollbars");
+			BdApi.injectCSS("codescrollbars", ".theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}");
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
 		stop() {
 			$("*").off(".HorizontalCodeScroll");
+			BdApi.clearCSS("codescrollbars");
 		}
 		
 		getCodeBelowMouse(e) {
