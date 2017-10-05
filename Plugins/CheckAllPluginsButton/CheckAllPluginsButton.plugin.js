@@ -2,13 +2,13 @@
 var CheckAllPluginsButton = (function() {
 
 	class CheckAllPluginsButton {
-		getName() { return 'CheckAllPluginsButton'; }
+		getName() { return "CheckAllPluginsButton"; }
 
-		getDescription() { return 'Plugin that adds check all and uncheck all buttons to the plugins menu.'; }
+		getDescription() { return "Plugin that adds check all and uncheck all buttons to the plugins menu."; }
 
-		getAuthor() { return 'Mashiro-chan'; }
+		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return '1.0.2'; }
+		getVersion() { return "1.0.3"; }
 
 		load() {
 			this.checkForUpdate();
@@ -88,6 +88,6 @@ var CheckAllPluginsButton = (function() {
 			}
 		}
 	}
-	
+
 	return CheckAllPluginsButton;
 })();
