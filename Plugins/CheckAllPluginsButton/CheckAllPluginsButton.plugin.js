@@ -8,7 +8,7 @@ var CheckAllPluginsButton = (function() {
 
 		getAuthor() { return 'Mashiro-chan'; }
 
-		getVersion() { return '1.0.1'; }
+		getVersion() { return '1.0.2'; }
 
 		load() {
 			this.checkForUpdate();
@@ -28,6 +28,8 @@ var CheckAllPluginsButton = (function() {
 
 		addButtons() {
 			setTimeout(function() {
+				$('.cap-check').remove();
+				$('.cap-uncheck').remove();
 				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px;">Check All</button>`)
 					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px; margin-left: 8px;">Uncheck All</button>`);
 			}, 100);
