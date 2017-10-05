@@ -14,5 +14,4 @@ A full-conversion theme meant to take advantage of a transparent client to revea
 
 ###### Notable Visual Plugins
 * Date Viewer - hammy                                      https://betterdiscord.net/ghdl?id=901
-* HorizontalCode - spthiel                                 https://betterdiscord.net/ghdl?id=1004
 * ReadAllNotificationsButton - DevilBro            https://betterdiscord.net/ghdl?id=887
