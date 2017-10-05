@@ -13,5 +13,5 @@ A full-conversion theme meant to take advantage of a transparent client to revea
 5. Restart Discord completely and make sure you have a transparent theme!
 
 ###### Notable Visual Plugins
-* Date Viewer - hammy                                      https://betterdiscord.net/ghdl?id=901
-* ReadAllNotificationsButton - DevilBro            https://betterdiscord.net/ghdl?id=887
+* Date Viewer - hammy                                      https://betterdiscord.net/ghdl?id=901
+* ReadAllNotificationsButton - DevilBro            https://betterdiscord.net/ghdl?id=887
