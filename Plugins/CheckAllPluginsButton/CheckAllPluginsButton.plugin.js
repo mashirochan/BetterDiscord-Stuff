@@ -46,7 +46,7 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		checkForUpdate() {
-			const githubRaw = 'https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/' + this.getName() + '/' + this.getName() + '.plugin.js';
+			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
 				var ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
 				if (!ver) return;
@@ -65,15 +65,15 @@ var CheckAllPluginsButton = (function() {
 		}
 
 		showUpdateNotice() {
-			const updateLink = 'https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/blob/master/Plugins/' + this.getName() + '/' + this.getName() + '.plugin.js';
-			BdApi.clearCSS('pluginNoticeCSS');
-			BdApi.injectCSS('pluginNoticeCSS', '#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}');
+			const updateLink = "https://betterdiscord.net/ghdl?url=https://github.com/mashirochan/Mashiro-chan/blob/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
+			BdApi.clearCSS("pluginNoticeCSS");
+			BdApi.injectCSS("pluginNoticeCSS", "#pluginNotice span, #pluginNotice span a {-webkit-app-region: no-drag;color:#fff;} #pluginNotice span a:hover {text-decoration:underline;}");
 			let noticeElement = '<div class="notice notice-info" id="pluginNotice"><div class="notice-dismiss" id="pluginNoticeDismiss"></div>The following plugins have updates: &nbsp;<strong id="outdatedPlugins"></strong></div>';
 			if (!$('#pluginNotice').length)  {
 				$('.app.flex-vertical').children().first().before(noticeElement);
-				$('.win-buttons').addClass('win-buttons-notice');
+				$('.win-buttons').addClass("win-buttons-notice");
 				$('#pluginNoticeDismiss').on('click', () => {
-					$('.win-buttons').animate({ top: 0 }, 400, 'swing', () => { $('.win-buttons').css('top', '').removeClass('win-buttons-notice'); });
+					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
 					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
 				});
 			}
