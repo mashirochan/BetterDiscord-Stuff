@@ -2,6 +2,13 @@
 var CheckAllPluginsButton = (function() {
 
 	class CheckAllPluginsButton {
+		
+		constructor() {
+			this.stylesheet_name = "cap-stylesheet";
+			this.stylesheet = `.cap-check {height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px}
+			.cap-uncheck {height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px; margin-left: 8px}`;
+		}
+		
 		getName() { return "CheckAllPluginsButton"; }
 
 		getDescription() { return "Plugin that adds check all and uncheck all buttons to the plugins menu."; }
@@ -16,6 +23,8 @@ var CheckAllPluginsButton = (function() {
 
 		start() {
 			$(document).on('click.CheckAllPluginsButton', '#bd-settings-sidebar .ui-tab-bar-item:contains("Plugins")', this.addButtons.bind(this));
+			BdApi.clearCSS(this.stylesheet_name);
+			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
@@ -30,8 +39,8 @@ var CheckAllPluginsButton = (function() {
 			setTimeout(function() {
 				$('.cap-check').remove();
 				$('.cap-uncheck').remove();
-				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px;">Check All</button>`)
-					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins() style="height: 19px; width: auto; float: right; margin-bottom: 19px; border-radius: 5px; color: #fff; font-size: 13px; background: #7289da; cursor: pointer; padding: 1px 6px; margin-left: 8px;">Uncheck All</button>`);
+				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins()>Check All</button>`)
+					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins()>Uncheck All</button>`);
 			}, 100);
 		}
 
