@@ -34,12 +34,12 @@ var FixVersionSpacing = (function() {
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
-				var ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
+				let ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
 				if (!ver) return;
 				ver = ver.toString().replace(/"/g, "");
 				this.remoteVersion = ver;
 				ver = ver.split(".");
-				var lver = this.getVersion().split(".");
+				let lver = this.getVersion().split(".");
 				if (ver[0] > lver[0]) this.hasUpdate = true;
 				else if (ver[0] == lver[0] && ver[1] > lver[1]) this.hasUpdate = true;
 				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) this.hasUpdate = true;
