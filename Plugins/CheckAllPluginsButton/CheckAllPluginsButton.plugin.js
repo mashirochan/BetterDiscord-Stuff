@@ -15,7 +15,7 @@ var CheckAllPluginsButton = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.3"; }
+		getVersion() { return "1.0.4"; }
 
 		load() {
 			this.checkForUpdate();
