@@ -46,8 +46,10 @@ var EmoteBlacklistRedux = (function() {
 
 		resetBemotes() {
 			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			blacklist = blacklist ? blacklist : [];
 
 			if (blacklist === null) return console.log('EmoteBlacklistRedux: emote blacklist is empty!');
+			
 			blacklist.forEach(emote => {
 				this.removeEmote(emote);
 				this.addEmote(emote);
@@ -63,6 +65,7 @@ var EmoteBlacklistRedux = (function() {
 
 		addToBlacklist(event) {
 			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			blacklist = blacklist ? blacklist : [];
 			let emote = $(event.target).siblings(".emote").attr("alt");
 			$('.emote[alt="' + emote + '"]').parent().replaceWith(emote);
 			
@@ -70,8 +73,6 @@ var EmoteBlacklistRedux = (function() {
 			
 			bdPluginStorage.set("EmoteBlacklistRedux", "blacklist", blacklist.filter(Boolean));
 			this.resetBemotes();
-			
-			console.log('window.bemotes: ' + window.bemotes);
 		}
 
 		addEmote(emote) {
@@ -86,13 +87,15 @@ var EmoteBlacklistRedux = (function() {
 		}
 
 		getSettingsPanel() {
-			let emotes = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist").filter(Boolean);
+			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			blacklist = blacklist ? blacklist : [];
+			
 			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
 			let html = '';
 			html += '<span class="ebr-title" style="color: #fff">' + title + '</span>';
 			html += '<textarea id="ebr-textarea" style="width:100%; min-height:200px;">';
-			if (emotes !== null) {
-				emotes.forEach(item => {
+			if (blacklist !== null) {
+				blacklist.forEach(item => {
 					html += item + "\n";
 				});
 			}
@@ -110,19 +113,18 @@ var EmoteBlacklistRedux = (function() {
 				blacklist.push(item);
 			});
 			
-			let clean_blacklist = blacklist.filter(Boolean);
-			
-			bdPluginStorage.set("EmoteBlacklistRedux", "blacklist", blacklist);
+			bdPluginStorage.set("EmoteBlacklistRedux", "blacklist", blacklist.filter(Boolean));
 			if (window.ebrEnabled) {
 				this.resetBemotes();
 			}
 		}
 
 		clear() {
-			let emotes = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			let blacklist = bdPluginStorage.get("EmoteBlacklistRedux", "blacklist");
+			blacklist = blacklist ? blacklist : [];
 			 
-			if (emotes === null) return;
-			emotes.forEach(emote => {
+			if (blacklist === null) return;
+			blacklist.forEach(emote => {
 				this.removeEmote(emote);
 			});
 		}
