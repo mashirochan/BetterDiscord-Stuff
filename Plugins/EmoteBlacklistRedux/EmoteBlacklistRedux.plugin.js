@@ -16,7 +16,7 @@ var EmoteBlacklistRedux = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.0"; }
+		getVersion() { return "1.0.1"; }
 
 		load() {
 			this.checkForUpdate();
