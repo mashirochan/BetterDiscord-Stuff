@@ -18,3 +18,9 @@
 ### Check All Plugins Button - [Download](https://betterdiscord.net/ghdl?id=1025)
 ###### Adds two buttons to the plugins menu that check and uncheck all plugins automatically.
 <img src="/Plugins/CheckAllPluginsButton/CheckAllPluginsButtonPreview.gif?raw=true">
+
+***
+
+### Emote Blacklist Redux - [Download](https://betterdiscord.net/ghdl?id=1030)
+###### A re-creation of Jiik's Emote Blacklist, with user friendliness in mind. Now lets you simply hover over an emote and click the 'x' to blacklist it!
+<img src="/Plugins/EmoteBlacklistRedux/EmoteBlacklistReduxPreview.gif?raw=true">
