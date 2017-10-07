@@ -5,7 +5,7 @@ var AutoServerSelect = (function() {
 
 		getName() { return "AutoServerSelect"; }
 
-		getDescription() { return "Plugin automatically navigates to the last server you selected upon startup."; }
+		getDescription() { return "Plugin that automatically navigates to the last server you selected upon startup."; }
 
 		getAuthor() { return "Mashiro-chan"; }
 
