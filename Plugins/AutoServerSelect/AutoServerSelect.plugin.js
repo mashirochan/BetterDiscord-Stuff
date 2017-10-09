@@ -9,7 +9,7 @@ var AutoServerSelect = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.0"; }
+		getVersion() { return "1.0.1"; }
 
 		load() {
 			this.checkForUpdate();
@@ -27,6 +27,7 @@ var AutoServerSelect = (function() {
 
 		onSwitch() {
 			let server = $('.guild.selected .avatar-small').attr('href');
+			if (server === undefined) return;
 			server = server.match(/\/channels\/[0-9]+\//g);
 			bdPluginStorage.set("AutoServerSelect", "server", server);
 		}
