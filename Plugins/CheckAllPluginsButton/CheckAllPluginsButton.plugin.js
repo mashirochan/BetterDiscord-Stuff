@@ -15,14 +15,15 @@ var CheckAllPluginsButton = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.5"; }
+		getVersion() { return "1.0.6"; }
 
 		load() {
 			this.checkForUpdate();
 		}
 
 		start() {
-			$(document).on('click.CheckAllPluginsButton', '#bd-settings-sidebar .ui-tab-bar-item:contains("Plugins")', this.addButtons.bind(this));
+			$('.app').on('click.CheckAllPluginsButton', '#bd-settings-sidebar .ui-tab-bar-item:contains("Plugins")', this.addButtons.bind(this));
+			$('.app').on('click.CheckAllPluginsButton', '#bd-settings-sidebar .ui-tab-bar-item:not(:contains("Plugins")), .side-2nYO0F .item-3879bf', this.removeButtons.bind(this));
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
@@ -42,7 +43,13 @@ var CheckAllPluginsButton = (function() {
 				$('.cap-uncheck').remove();
 				$('.content-column.default').prepend(`<button class="cap-check" onclick=BdApi.getPlugin("CheckAllPluginsButton").checkAllPlugins()>Check All</button>`)
 					.prepend(`<button class="cap-uncheck" onclick=BdApi.getPlugin("CheckAllPluginsButton").uncheckAllPlugins()>Uncheck All</button>`);
-			}, 100);
+			}, 50);
+		}
+
+		removeButtons() {
+			$('.cap-check').remove();
+			$('.cap-uncheck').remove();
+			console.log('buttons removed');
 		}
 
 		checkAllPlugins() {
