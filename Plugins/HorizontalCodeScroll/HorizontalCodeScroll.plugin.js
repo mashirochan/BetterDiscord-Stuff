@@ -2,6 +2,20 @@
 var HorizontalCodeScroll = (function() {
 
 	class HorizontalCodeScroll {
+		
+		constructor() {
+			this.stylesheet_name = "hcs-stylesheet";
+			this.stylesheet = `
+			.theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}
+			.hcs-title {color: #fff}
+			.hcs-speedLabel { }
+			#hcs-speedInput { }
+			.hcs-typeLabel { }
+			#hcs-typeInput { }
+			.hcs-save {float: right}
+			`;
+		}
+		
 		getName() { return "HorizontalCodeScroll"; }
 
 		getDescription() { return "Plugin for horizontal scrolling in Codeblocks."; }
@@ -16,15 +30,15 @@ var HorizontalCodeScroll = (function() {
 
 		start() {
 			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e));
-			BdApi.clearCSS("codescrollbars");
-			BdApi.injectCSS("codescrollbars", ".theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}");
+			BdApi.clearCSS(this.stylesheet_name);
+			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
 		stop() {
 			$("*").off(".HorizontalCodeScroll");
-			BdApi.clearCSS("codescrollbars");
+			BdApi.clearCSS(this.stylesheet_name);
 		}
 		
 		getCodeBelowMouse(e) {
@@ -49,17 +63,72 @@ var HorizontalCodeScroll = (function() {
 		}
 
 		scrollHorizontally(e) {
+			let scrollSpeed = bdPluginStorage.get("HorizontalCodeScroll", "scrollSpeed");
+			let scrollType = bdPluginStorage.get("HorizontalCodeScroll", "scrollType");
+			scrollSpeed = scrollSpeed ? scrollSpeed : 40;
+			scrollType = scrollType ? scrollType : 'Manual';
+			
 			e = window.event || e;
 			let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 			let elementToScroll = this.getCodeBelowMouse(e);
 			if (elementToScroll !== null) {
-				elementToScroll.scrollLeft -= (delta * 40);
+				if (this.scrollType == 'Manual') elementToScroll.scrollLeft -= (delta * this.scrollSpeed);
+				else elementToScroll.scrollLeft -= (delta * this.getScrollMultipler(elementToScroll));
 				e.preventDefault();
 			}
 		}
 
+		getScrollMultipler(codeblock) {
+			let prototypecodeblock = $(codeblock);
+			return prototypecodeblock.outerWidth() * 0.8;
+		}
+		
 		hasScrollBar(e) {
 			return e.scrollWidth > e.clientWidth;
+		}
+		
+		getSettingsPanel() {
+			let scrollSpeed = bdPluginStorage.get("HorizontalCodeScroll", "scrollSpeed");
+			let scrollType = bdPluginStorage.get("HorizontalCodeScroll", "scrollType");
+			scrollSpeed = scrollSpeed ? scrollSpeed : 40;
+			scrollType = scrollType ? scrollType : 'Manual';
+			
+			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
+			let html = '';
+			html += '<span class="hcs-title">' + title + '</span>';
+			html += '<br>';
+			html += '<label class="hcs-speedLabel" for="hcs-speedInput">Scroll Speed</label>';
+			
+			if (scrollType == 'Automatic')
+				html += '<input type="text" id="hcs-speedInput" value="' + scrollSpeed + '" disabled>';
+			else
+				html += '<input type="text" id="hcs-speedInput" value="' + scrollSpeed + '">';
+
+			html += '<br>';
+			html += '<label class="hcs-typeLabel" for="hcs-typeInput">Scroll Type</label>';
+			html += '<select id="hcs-typeInput" onchange=BdApi.getPlugin("HorizontalCodeScroll").updateSettings() name="scroll type">';
+			html += '<option value="Manual"' + (scrollType == 'Manual' ? 'selected' : '') + '>Manual</option>';
+			html += '<option value="Automatic"' + (scrollType == 'Automatic' ? 'selected' : '') + '>Automatic</option>';
+			html += '</select>';
+			html += '<button class="hcs-save" onclick=BdApi.getPlugin("HorizontalCodeScroll").save()>Save</button>';
+			return html;
+		}
+		
+		updateSettings() {
+			let speedInput = $('#hcs-speedInput');
+			let typeInput = $('#hcs-typeInput');
+			let scrollSpeed = parseInt(speedInput.val());
+			let scrollType = typeInput.val();
+			
+			if (scrollType == 'Automatic') speedInput.prop("disabled", true);
+			else speedInput.prop("disabled", false);
+		}
+		
+		save() {
+			let scrollSpeed = parseInt($('#hcs-speedInput').val());
+			let scrollType = $('#hcs-typeInput').val();
+			bdPluginStorage.set("HorizontalCodeScroll", "scrollSpeed", scrollSpeed);
+			bdPluginStorage.set("HorizontalCodeScroll", "scrollType", scrollType);
 		}
 		
 		checkForUpdate() {
