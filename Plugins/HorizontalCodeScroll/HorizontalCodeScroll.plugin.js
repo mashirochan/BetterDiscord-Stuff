@@ -7,12 +7,15 @@ var HorizontalCodeScroll = (function() {
 			this.stylesheet_name = "hcs-stylesheet";
 			this.stylesheet = `
 			.theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}
-			.hcs-title {color: #fff}
-			.hcs-speedLabel { }
-			#hcs-speedInput { }
-			.hcs-typeLabel { }
-			#hcs-typeInput { }
-			.hcs-save {float: right}
+			.hcs-title {position: relative; bottom: 30px; font-family: "Whitney", bold, sans-serif; display: block; max-height: 12px; font-size: 12px; font-weight: 700; width: 400px; color: #87909C; padding-bottom: 17px; border-bottom: 1px solid #3f4146}
+			.hcs-speedLabel {position: relative; left: 10px; bottom: 20px; color: #b0b6b9}
+			#hcs-speedInput {position: relative; left: 20px; bottom: 21px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: 32px; background: rgba(100, 100, 100, 0.5)}
+			#hcs-speedInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
+			#hcs-speedInput:disabled {color: rgba(255, 255, 255, 0.3); background: rgba(100, 100, 100, 0.2)}
+			.hcs-typeLabel {position: relative; left: 10px; bottom: 10px; color: #b0b6b9}
+			#hcs-typeInput {position: relative; left: 27px; bottom: 11px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
+			#hcs-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
+			.hcs-save {position: relative; float: right; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px; right: 5px; bottom: 5px}
 			`;
 		}
 		
@@ -22,7 +25,7 @@ var HorizontalCodeScroll = (function() {
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.4"; }
+		getVersion() { return "1.0.5"; }
 
 		load() {
 			this.checkForUpdate();
