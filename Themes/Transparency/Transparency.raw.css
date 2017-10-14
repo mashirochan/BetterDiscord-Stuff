@@ -5,6 +5,10 @@
 	background: transparent !important;
 }
 
+.app {
+	position: fixed; width: 100vw; height: 100vh;
+}
+
 /* make background transparent */
 body {
     background-color: rgba(0, 0, 0, 0.0);
@@ -105,6 +109,11 @@ a {
 
 .guilds-wrapper .guilds .friends-online {
 	color: rgba(225, 225, 225, 0.9);
+}
+
+.guilds-wrapper .guilds .guild.audio .guild-inner:after,
+.guilds-wrapper .guilds .guild.video .guild-inner:after {
+	background-color: rgba(255, 98, 98, 0.7);
 }
 
 /*                                                                 Channels Menu                                                   */
@@ -450,9 +459,18 @@ a {
 	color: hsla(0, 0%, 100%, 0.4);
 }
 
+/* edit chat avatars */
 .avatar-large {
 	display: inline;
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	height: 50px;
+	width: 50px;
+	background-size: 50px 50px;
+}
+
+/* lower spacing between messages */
+.message-group {
+	padding: 10px 0px;
 }
 
 /* change highlight color */
@@ -927,6 +945,11 @@ a {
 
 .context-menu .item {
 	color: rgba(255, 255, 255, 0.7);
+}
+
+/*                                                    File Upload Drag and Drop                                                   */
+.upload-drop-modal .bgScale {
+	background: rgba(255, 98, 98, 0.7);
 }
 
 .context-menu .item:hover {
@@ -1791,10 +1814,6 @@ input#help-query ::-webkit-input-placeholder {
  	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.app a, .connecting a {
-	color: #ff6262;
-}
-
 .theme-dark .ui-select .Select-menu-outer {
 	background: rgba(0, 0, 0, 0.7);
 	border-color: rgba(0, 0, 0, 0.0);
@@ -1905,8 +1924,8 @@ input#help-query ::-webkit-input-placeholder {
 	color: rgba(255, 255, 255, 0.9);
 	background: rgba(255, 98, 98, 0.7);
 	position: relative;
-	top: 65px;
-	left: 15px;
+	top: 66px;
+	left: 39px;
 }
 
 .ui-standard-sidebar-view .bda-slist .bda-right button:hover {
@@ -1914,7 +1933,69 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 .ui-switch-wrapper {
-	float: right;
+    -webkit-user-select: none;
+    position: relative;
+    width: 44px;
+    height: 24px;
+    display: block;
+    flex: 0 0 auto;
+}
+
+.ui-switch-wrapper {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    float: right;
+}
+
+.ui-switch-wrapper input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.ui-switch-wrapper .ui-switch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(114, 118, 125, 0.7);
+    border-radius: 14px;
+    transition: background .15s ease-in-out, box-shadow .15s ease-in-out, border .15s ease-in-out;
+}
+
+.ui-switch-checkbox:checked+.ui-switch {
+    background: rgba(255, 98, 98, 0.7);
+}
+
+.ui-switch-wrapper .ui-switch::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    bottom: 3px;
+    background: #f6f6f7;
+    border-radius: 10px;
+    transition: all .15s ease;
+    box-shadow: 0 3px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+#bd-settingspane-container .ui-switch-wrapper .ui-switch-checkbox:checked+.ui-switch::before {
+    transform: translate(20px, 0) !important;
+}
+
+#bd-settingspane-container .ui-switch-wrapper .ui-switch-checkbox+.ui-switch::before {
+    transform: translate(0, 0);
+}
+
+#bd-settingspane-container .ui-switch-wrapper .ui-switch.checked::before {
+    transform: translateX(20px);
 }
 
 .cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(114, 137, 218);"],
@@ -1946,14 +2027,6 @@ input#help-query ::-webkit-input-placeholder {
 	color: #ff6262;
 }
 
-.scroller-wrap.dark .scroller ::-webkit-scrollbar {
-	width: 4px;	
-}
-
-.scroller-wrap.dark .scroller ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.7);	
-}
-
 /* change color of checkbox */
 .checkbox .checkbox-inner input[type=checkbox]:checked+span {
     background-color: rgba(255, 98, 98, 0.7);
@@ -1961,7 +2034,8 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 .theme-dark .checked-2TahvT {
-    border-color: rgba(255, 98, 98, 0.8) !important;
+    border-color: rgba(255, 98, 98, 0.0) !important;
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 [layer-id="user-settings"] input[type="checkbox"]:checked + div polyline {
@@ -1994,6 +2068,54 @@ input#help-query ::-webkit-input-placeholder {
 	background-color: rgba(100, 100, 100, 0.3);
 }
 
+.theme-dark .ui-select > .Select .Select-menu-outer {
+	background: rgba(0, 0, 0, 0.5);
+	border: none;
+}
+
+.checked-2TahvT > svg[name="Checkmark"] > g > polyline {
+	stroke: #ff6262;
+}
+
+.theme-dark .focused-1rg4X4 {
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.0);
+}
+
+.buttonGreenFilled-6QHNrw {
+	background-color: rgba(67, 181, 129, 0.7);
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.buttonGreenFilled-6QHNrw:hover {
+	background-color: rgba(67, 181, 129, 0.9);
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.theme-dark .ui-settings-notice {
+	background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* audit log */
+.theme-dark .ui-popout-list {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.action-item.selected {
+	background: rgba(255, 98, 98, 0.7) !important;
+}
+
+.ui-selectable-item.selected {
+	background: rgba(255, 98, 98, 0.7) !important;
+}
+
+.theme-dark .ui-selectable-item:hover {
+	background-color: rgba(100, 100, 100, 0.3);
+}
+
+.theme-dark .ui-search-bar {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
 /*                                                       Check All Plugins Button                                      */
 .cap-check {
 	background: rgba(255, 98, 98, 0.7);
@@ -2016,8 +2138,8 @@ input#help-query ::-webkit-input-placeholder {
 /*                                                    Emote Blacklist Redux Settings                                   */
 .ebr-save {
 	position: relative;
-	right: 6px;
-	bottom: 3px;
+	right: 5px;
+	bottom: 5px;
 	background-color: rgba(255, 98, 98, 0.7);
 	border-radius: 4px;
 	width: 80px;
@@ -2039,7 +2161,8 @@ input#help-query ::-webkit-input-placeholder {
 	font-weight: 700;
 	width: 400px;
 	color: rgba(255, 255, 255, 0.7) !important;
-	
+	padding-bottom: 17px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ebr-desc {
@@ -2061,6 +2184,43 @@ input#help-query ::-webkit-input-placeholder {
 
 #ebr-textarea:focus {
 	outline: none;
+}
+
+/*                                                    Horizontal Code Scroll Settings                                  */
+.hcs-title {
+	color: rgba(255, 255, 255, 0.7);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hcs-speedLabel {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+#hcs-speedInput:focus {
+	box-shadow: 0 0 3pt 2pt rgba(255, 98, 98, 0.3);
+}
+
+.hcs-typeLabel {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+#hcs-typeInput {
+	color: rgba(255, 255, 255, 0.7);
+	background: rgba(100, 100, 100, 0.5);
+}
+
+#hcs-typeInput:focus {
+	box-shadow: 0 0 3pt 2pt rgba(255, 98, 98, 0.3);
+}
+
+.hcs-save {
+	color: rgba(255, 255, 255, 0.7);
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.hcs-save:hover {
+	color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 98, 98, 0.9);
 }
 
 /*                                                    Plugin Update Notification Bar                                   */
@@ -2152,23 +2312,6 @@ input#help-query ::-webkit-input-placeholder {
 
 .serverhider-modal .btn-ok:hover {
 	background-color: rgba(255, 98, 98, 0.9);
-}
-
-#serverhider-scrolldiv ::-webkit-scrollbar {
-	width: 7px;
-}
-
-#serverhider-scrolldiv ::-webkit-scrollbar-track {
-	background-color: rgba(100, 100, 100, 0.3);
-	border-radius: 7px;
-}
-
-#serverhider-scrolldiv ::-webkit-scrollbar-track-piece {
-	background-color: rgba(0, 0, 0, 0.0);
-}
-
-#serverhider-scrolldiv ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.2);
 }
 
 /*                                                            Read All Button                                                */
@@ -2299,141 +2442,52 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 /*                                                            Scrollbars                                                     */
-.bda-dark #bda-qem-favourite-container .scroller ::-webkit-scrollbar,
-.bda-dark #bda-qem-favourite-container .scroller ::-webkit-scrollbar-track,
-.bda-dark #bda-qem-favourite-container .scroller ::-webkit-scrollbar-track-piece,
-.bda-dark #bda-qem-twitch-container .scroller ::-webkit-scrollbar,
-.bda-dark #bda-qem-twitch-container .scroller ::-webkit-scrollbar-track,
-.bda-dark #bda-qem-twitch-container .scroller ::-webkit-scrollbar-track-piece,
-.bda-dark .emoji-picker .scroller ::-webkit-scrollbar,
-.bda-dark .emoji-picker .scroller ::-webkit-scrollbar-track,
-.bda-dark .emoji-picker .scroller ::-webkit-scrollbar-track-piece {
-	background-color: rgba(0, 0, 0, 0.2) !important;
-	border-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.bda-dark #bda-qem-twitch-container .scroller ::-webkit-scrollbar-thumb,
-.bda-dark #bda-qem-favourite-container .scroller ::-webkit-scrollbar-thumb,
-.bda-dark .emoji-picker .scroller ::-webkit-scrollbar-thumb,
-.bda-dark #pubs-container .scroller ::-webkit-scrollbar-thumb {
-	background-color: rgba(100, 100, 100, 0.2) !important;
-	border-color: rgba(100, 100, 100, 0.2) !important;
-}
-
-/* code blocks */
-.theme-dark .message-group .comment .markup pre code::-webkit-scrollbar-track {
-	background-color: rgba(0, 0, 0, 0.0);
-}
-
-.theme-dark .message-group .comment .markup pre code::-webkit-scrollbar {
+.bda-dark #bda-qem-twitch-container .scroller::-webkit-scrollbar,
+.bda-dark #bda-qem-favourite-container .scroller::-webkit-scrollbar,
+.bda-dark .emoji-picker .scroller::-webkit-scrollbar,
+.bda-dark #pubs-container .scroller::-webkit-scrollbar,
+::-webkit-scrollbar {
+	background-color: transparent !important;
+	width: 4px !important;
 	height: 4px !important;
 }
 
-.theme-dark .message-group .comment .markup pre code::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.5) !important;
-	visibility: hidden !important;
-}
-
-.theme-dark .message-group .comment .markup pre code:hover::-webkit-scrollbar-thumb {
-	visibility: visible !important;
-}
-
-/* channel scroller */
-.scrollerThemed-19vinI.themeGhostHairlineChannels-2lQojW .scroller-fzNley ::-webkit-scrollbar {
-	width: 4px;
-}
-
-.scrollerThemed-19vinI.themeGhostHairlineChannels-2lQojW .scroller-fzNley ::-webkit-scrollbar-thumb {
-	background: rgba(255, 98, 98, 0.5);
-}
-
-/* chat scroller */
-.theme-dark .messages-wrapper .scroller-wrap ::-webkit-scrollbar {
-	width: 4px !important;
-}
-
-.theme-dark .messages-wrapper .scroller-wrap ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.5) !important;
-	border-color: rgba(0, 0, 0, 0.0) !important;
-	visibility: hidden !important;
-}
-
-.theme-dark .messages-wrapper .scroller-wrap:hover ::-webkit-scrollbar-thumb {
-	visibility: visible !important;
-}
-
-.messages-wrapper .scroller-wrap ::-webkit-scrollbar-track-piece {
-    background: transparent !important;
-    border: none !important;
-}
-
-/* members scroller */
-.scroller-fzNley::-webkit-scrollbar {
-	width: 4px !important;
-}
-
-.scrollerThemed-19vinI.themeGhost-10fio9 .scroller-fzNley::-webkit-scrollbar-thumb {
-	background: rgba(255, 98, 98, 0.5) !important;
-}
-
-/* large profiles */
-#user-profile-modal .scroller::-webkit-scrollbar {
-	background-color: rgba(0, 0, 0, 0.0) !important;
-	width: 4px !important;
-	border: none !important;
-}
-
-#user-profile-modal .scroller::-webkit-scrollbar-track-piece {
-	background-color: rgba(0, 0, 0, 0.0) !important;
-	border: none !important;
-}
-
-#user-profile-modal .scroller::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.7) !important;
-	border: none !important;
-}
-
-/* friends list */
-.theme-dark .friends-table .scroller-wrap ::-webkit-scrollbar {
-	width: 4px !important;
-}
-
-.theme-dark .friends-table .scroller-wrap ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.5) !important;
-    border: none !important;
-	visibility: hidden !important;
-}
-
-.theme-dark .friends-table .scroller-wrap:hover ::-webkit-scrollbar-thumb {
-	visibility: visible !important;
-}
-
-.theme-dark .friends-table .scroller-wrap ::-webkit-scrollbar-track-piece {
+.bda-dark #bda-qem-twitch-container .scroller::-webkit-scrollbar-track,
+.bda-dark #bda-qem-favourite-container .scroller::-webkit-scrollbar-track,
+.bda-dark .emoji-picker .scroller::-webkit-scrollbar-track,
+.bda-dark #pubs-container .scroller::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
     background-color: transparent !important;
     border: none !important;
 }
 
-/* context menu */
-.context-menu::-webkit-scrollbar {
-	background-color: rgba(100, 100, 100, 0.0) !important;
-	width: 4px !important;
+.bda-dark #bda-qem-twitch-container .scroller::-webkit-scrollbar-track-piece,
+.bda-dark #bda-qem-favourite-container .scroller::-webkit-scrollbar-track-piece,
+.bda-dark .emoji-picker .scroller::-webkit-scrollbar-track-piece,
+.bda-dark #pubs-container .scroller::-webkit-scrollbar-track-piece,
+::-webkit-scrollbar-track-piece {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.bda-dark #bda-qem-twitch-container .scroller::-webkit-scrollbar-thumb,
+.bda-dark #bda-qem-favourite-container .scroller::-webkit-scrollbar-thumb,
+.bda-dark .emoji-picker .scroller::-webkit-scrollbar-thumb,
+.bda-dark #pubs-container .scroller::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 98, 98, 0.7) !important;
+	border-radius: 7px !important;
+	border: none !important;
 	visibility: hidden !important;
 }
 
-.context-menu::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.3) !important;
+.bda-dark #bda-qem-twitch-container .scroller:hover::-webkit-scrollbar-thumb,
+.bda-dark #bda-qem-favourite-container .scroller:hover::-webkit-scrollbar-thumb,
+.bda-dark .emoji-picker .scroller:hover::-webkit-scrollbar-thumb,
+.bda-dark #pubs-container .scroller:hover::-webkit-scrollbar-thumb,
+:hover::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 98, 98, 0.7) !important;
 	border-radius: 7px !important;
-}
-
-/* settings menu */
-.theme-dark .ui-select .Select-menu ::-webkit-scrollbar {
-	width: 4px;
-}
-
-.theme-dark .ui-select .Select-menu ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.7);
-}
-
-.theme-dark .scrollerThemed-19vinI.themeGhostHairline-2H8SiW .scroller-fzNley ::-webkit-scrollbar-thumb {
-	background-color: rgba(255, 98, 98, 0.7);
+	border: none !important;
+	visibility: visible !important;
 }
