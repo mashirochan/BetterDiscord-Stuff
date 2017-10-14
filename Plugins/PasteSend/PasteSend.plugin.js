@@ -5,7 +5,7 @@ var PasteSend = (function() {
 
 		getName() { return "PasteSend"; }
 
-		getDescription() { return "Plugin that automaticallys sends pasted text (default shortcut is Ctrl + Shift + V)."; }
+		getDescription() { return "Plugin that automatically sends pasted text (default shortcut is Ctrl + Shift + V)."; }
 
 		getAuthor() { return "Mashiro-chan"; }
 
