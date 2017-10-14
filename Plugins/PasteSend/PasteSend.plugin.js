@@ -16,11 +16,11 @@ var PasteSend = (function() {
 		}
 
 		start() {
-			$(document).keydown(e => {
+			$('.textArea-20yzAH').on('keydown.PasteSend', e => {
 				if (e.ctrlKey && e.shiftKey && e.which == 86) {
-					setTimeout(() => {
+					setImmediate(() => {
 						this.sendMessage();
-					}, 100);
+					});
 				}
 			});
 			
@@ -29,7 +29,7 @@ var PasteSend = (function() {
 		}
 		
 		stop() {
-			$(document).off('keydown');
+			$('*').off('.PasteSend');
 		}
 
 		sendMessage() {
