@@ -8,7 +8,7 @@ var FixVersionSpacing = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.4"; }
+		getVersion() { return "1.0.5"; }
 
 		load() {
 			this.checkForUpdate();
@@ -34,19 +34,17 @@ var FixVersionSpacing = (function() {
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
-				let ver = result.match(/"[0-9]+\.[0-9]+\.[0-9]+"/i);
+				let ver = result.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i);
 				if (!ver) return;
 				ver = ver.toString().replace(/"/g, "");
-				this.remoteVersion = ver;
 				ver = ver.split(".");
 				let lver = this.getVersion().split(".");
-				if (ver[0] > lver[0]) this.hasUpdate = true;
-				else if (ver[0] == lver[0] && ver[1] > lver[1]) this.hasUpdate = true;
-				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) this.hasUpdate = true;
-				else this.hasUpdate = false;
-				if (this.hasUpdate) {
-					this.showUpdateNotice();
-				}
+				let hasUpdate = false;
+				if (ver[0] > lver[0]) hasUpdate = true;
+				else if (ver[0] == lver[0] && ver[1] > lver[1]) hasUpdate = true;
+				else if (ver[0] == lver[0] && ver[1] == lver[1] && ver[2] > lver[2]) hasUpdate = true;
+				if (hasUpdate) this.showUpdateNotice(this.getName());
+				else this.removeUpdateNotice(this.getName());
 			});
 		}
 
@@ -59,17 +57,27 @@ var FixVersionSpacing = (function() {
 				$('.app.flex-vertical').children().first().before(noticeElement);
 				$('.win-buttons').addClass("win-buttons-notice");
 				$('#pluginNoticeDismiss').on('click', () => {
-					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top","").removeClass("win-buttons-notice"); });
-					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); } });
+					$('.win-buttons').animate({ top: 0 }, 400, "swing", () => { $('.win-buttons').css("top", "").removeClass("win-buttons-notice"); });
+					$('#pluginNotice').slideUp({ complete: () => { $('#pluginNotice').remove(); }});
 				});
 			}
 			let pluginNoticeID = this.getName() + '-notice';
-			let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
-			pluginNoticeElement.html('<a href="' + updateLink + '" target="_blank">' + this.getName() + '</a>');
 			if (!$('#' + pluginNoticeID).length) {
-				if ($('#outdatedPlugins').children('span').length) pluginNoticeElement.html(', ' + pluginNoticeElement.html());
+				let pluginNoticeElement = $('<span id="' + pluginNoticeID + '">');
+				pluginNoticeElement.html('<a href="' + updateLink + '" target="_blank">' + this.getName() + '</a>');
+				if ($('#outdatedPlugins').children('span').length) $('#outdatedPlugins').append("<span class='separator'>, </span>");
 				$('#outdatedPlugins').append(pluginNoticeElement);
 			}
+		}
+
+		removeUpdateNotice() {
+			let notice = $('#' + this.getName() + '-notice');
+			if (notice.length) {
+				if (notice.next('.separator').length) notice.next().remove();
+				else if (notice.prev('.separator').length) notice.prev().remove();
+				notice.remove();
+			}
+			if (!$('#outdatedPlugins').children('span').length) $('#pluginNoticeDismiss').click();
 		}
 	}
 	
