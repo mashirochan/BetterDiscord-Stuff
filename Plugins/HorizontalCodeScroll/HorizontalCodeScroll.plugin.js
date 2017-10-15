@@ -36,12 +36,7 @@ var HorizontalCodeScroll = (function() {
 		}
 
 		start() {
-			let settings = bdPluginStorage.get("HorizontalCodeScroll", "settings");
-			let scrollSpeed = (settings && settings[0]) ? settings[0] : 200;
-			let scrollType = (settings && settings[1]) ? settings[1] : 'Manual';
-			let scrollLock = (settings && settings[2]) ? settings[2] : true;
-			
-			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e, scrollSpeed, scrollType, scrollLock));
+			this.setListener();
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
@@ -148,6 +143,18 @@ var HorizontalCodeScroll = (function() {
 			let scrollType = $('#hcs-typeInput').val();
 			let scrollLock = $('#hcs-lockInput').val();
 			bdPluginStorage.set("HorizontalCodeScroll", "settings", [scrollSpeed, scrollType, scrollLock]);
+			this.setListener();
+		}
+		
+		setListener() {
+			let settings = bdPluginStorage.get("HorizontalCodeScroll", "settings");
+			let scrollSpeed = (settings && settings[0]) ? settings[0] : 200;
+			let scrollType = (settings && settings[1]) ? settings[1] : 'Manual';
+			let scrollLock = (settings && settings[2]) ? settings[2] : 'Enabled';
+			
+			$('*').off('.HorizontalCodeScroll');
+			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e, scrollSpeed, scrollType, scrollLock));
+			console.log('listeners set\nspeed: ' + scrollSpeed + '\ntype: ' + scrollType + '\nlock: ' + scrollLock);
 		}
 
 		checkForUpdate() {
