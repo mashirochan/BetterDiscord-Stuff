@@ -7,15 +7,19 @@ var HorizontalCodeScroll = (function() {
 			this.stylesheet_name = "hcs-stylesheet";
 			this.stylesheet = `
 			.theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}
-			.hcs-title {position: relative; bottom: 30px; font-family: "Whitney", bold, sans-serif; display: block; max-height: 12px; font-size: 12px; font-weight: 700; width: 400px; color: #87909C; padding-bottom: 17px; border-bottom: 1px solid #3f4146}
-			.hcs-speedLabel {position: relative; left: 10px; bottom: 15px; color: #b0b6b9}
-			#hcs-speedInput {position: relative; left: 20px; bottom: 16px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: 32px; background: rgba(100, 100, 100, 0.5)}
+			.hcs-settings {position: relative}
+			.hcs-title {position: absolute; top: -30px; font-family: "Whitney", bold, sans-serif; display: block; max-height: 12px; font-size: 12px; font-weight: 700; width: 400px; color: #87909C; padding-bottom: 17px; border-bottom: 1px solid #3f4146}
+			.hcs-speedLabel {position: absolute; left: 10px; top: 5px; color: #b0b6b9}
+			#hcs-speedInput {position: absolute; left: 100px; top: 3px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: 40px; background: rgba(100, 100, 100, 0.5)}
 			#hcs-speedInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
 			#hcs-speedInput:disabled {color: rgba(255, 255, 255, 0.3); background: rgba(100, 100, 100, 0.2)}
-			.hcs-typeLabel {position: relative; left: -103px; bottom: -20px; color: #b0b6b9}
-			#hcs-typeInput {position: relative; left: -86px; bottom: -19px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
+			.hcs-typeLabel {position: absolute; left: 10px; top: 40px; color: #b0b6b9}
+			#hcs-typeInput {position: absolute; left: 95px; top: 39px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
 			#hcs-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
-			.hcs-save {position: relative; float: right; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px; right: 5px; top: 23px}
+			.hcs-lockLabel {position: absolute; left: 160px; top: 5px; color: #b0b6b9}
+			#hcs-lockInput {position: absolute; left: 245px; top: 4px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
+			#hcs-lockInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
+			.hcs-save {position: absolute; right: 5px; top: 41px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
 			`;
 		}
 
@@ -25,14 +29,19 @@ var HorizontalCodeScroll = (function() {
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.7"; }
+		getVersion() { return "1.0.8"; }
 
 		load() {
 			this.checkForUpdate();
 		}
 
 		start() {
-			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e));
+			let settings = bdPluginStorage.get("HorizontalCodeScroll", "settings");
+			let scrollSpeed = (settings && settings[0]) ? settings[0] : 200;
+			let scrollType = (settings && settings[1]) ? settings[1] : 'Manual';
+			let scrollLock = (settings && settings[2]) ? settings[2] : true;
+			
+			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e, scrollSpeed, scrollType, scrollLock));
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
@@ -65,19 +74,19 @@ var HorizontalCodeScroll = (function() {
 			return null;
 		}
 
-		scrollHorizontally(e) {
-			let scrollSpeed = bdPluginStorage.get("HorizontalCodeScroll", "scrollSpeed");
-			let scrollType = bdPluginStorage.get("HorizontalCodeScroll", "scrollType");
-			scrollSpeed = scrollSpeed ? scrollSpeed : 40;
-			scrollType = scrollType ? scrollType : 'Manual';
-			
+		scrollHorizontally(e, scrollSpeed, scrollType, scrollLock) {
 			e = window.event || e;
-			let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 			let elementToScroll = this.getCodeBelowMouse(e);
 			if (elementToScroll !== null) {
-				if (this.scrollType == 'Manual') elementToScroll.scrollLeft -= (delta * this.scrollSpeed);
-				else elementToScroll.scrollLeft -= (delta * this.getScrollMultipler(elementToScroll));
-				e.preventDefault();
+				let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				let maxScrollLeft = elementToScroll.scrollWidth - elementToScroll.clientWidth;
+				if (scrollType == 'Manual') {
+					elementToScroll.scrollLeft -= (delta * scrollSpeed);
+				} else {
+					elementToScroll.scrollLeft -= (delta * this.getScrollMultipler(elementToScroll));
+				}
+				if (elementToScroll.scrollLeft != maxScrollLeft && elementToScroll.scrollLeft != 0 && scrollLock === 'Disabled') e.preventDefault();
+				else if (scrollLock === 'Enabled') e.preventDefault();
 			}
 		}
 
@@ -91,13 +100,14 @@ var HorizontalCodeScroll = (function() {
 		}
 
 		getSettingsPanel() {
-			let scrollSpeed = bdPluginStorage.get("HorizontalCodeScroll", "scrollSpeed");
-			let scrollType = bdPluginStorage.get("HorizontalCodeScroll", "scrollType");
-			scrollSpeed = scrollSpeed ? scrollSpeed : 40;
-			scrollType = scrollType ? scrollType : 'Manual';
+			let settings = bdPluginStorage.get("HorizontalCodeScroll", "settings");
+			let scrollSpeed = (settings && settings[0]) ? settings[0] : 200;
+			let scrollType = (settings && settings[1]) ? settings[1] : 'Manual';
+			let scrollLock = (settings && settings[2]) ? settings[2] : 'Enabled';
 			
 			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
 			let html = '';
+			html += '<div class="hcs-settings">';
 			html += '<span class="hcs-title">' + title + '</span>';
 			html += '<label class="hcs-speedLabel" for="hcs-speedInput">Scroll Speed</label>';
 			
@@ -111,7 +121,15 @@ var HorizontalCodeScroll = (function() {
 			html += '<option value="Manual"' + (scrollType == 'Manual' ? 'selected' : '') + '>Manual</option>';
 			html += '<option value="Automatic"' + (scrollType == 'Automatic' ? 'selected' : '') + '>Automatic</option>';
 			html += '</select>';
+			
+			html += '<label class="hcs-lockLabel" for="hcs-lockInput">Scroll Lock</label>';
+			html += '<select id="hcs-lockInput" name="scroll lock">';
+			html += '<option value="Enabled"' + (scrollLock == 'Enabled' ? 'selected' : '') + '>Enabled</option>';
+			html += '<option value="Disabled"' + (scrollLock == 'Disabled' ? 'selected' : '') + '>Disabled</option>';
+			html += '</select>';
+			
 			html += '<button class="hcs-save" onclick=BdApi.getPlugin("HorizontalCodeScroll").save()>Save</button>';
+			html += '</div>';
 			return html;
 		}
 
@@ -128,8 +146,8 @@ var HorizontalCodeScroll = (function() {
 		save() {
 			let scrollSpeed = parseInt($('#hcs-speedInput').val());
 			let scrollType = $('#hcs-typeInput').val();
-			bdPluginStorage.set("HorizontalCodeScroll", "scrollSpeed", scrollSpeed);
-			bdPluginStorage.set("HorizontalCodeScroll", "scrollType", scrollType);
+			let scrollLock = $('#hcs-lockInput').val();
+			bdPluginStorage.set("HorizontalCodeScroll", "settings", [scrollSpeed, scrollType, scrollLock]);
 		}
 
 		checkForUpdate() {
