@@ -171,7 +171,7 @@ var PasteSend = (function() {
 		
 		save() {
 			let storageKeys = $('#ps-hotkeyInput').text().split(' + ');
-			let pasteType = $('#ps-typeInput').text();
+			let pasteType = $('#ps-typeInput').val();
 			bdPluginStorage.set("PasteSend", "storageKeys", storageKeys);
 			bdPluginStorage.set("PasteSend", "pasteType", pasteType);
 			this.setListener();
