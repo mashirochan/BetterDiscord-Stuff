@@ -2,30 +2,30 @@
 var HorizontalCodeScroll = (function() {
 
 	class HorizontalCodeScroll {
-		
+
 		constructor() {
 			this.stylesheet_name = "hcs-stylesheet";
 			this.stylesheet = `
 			.theme-dark .message-group .comment .markup pre {white-space: pre; overflow-x: auto}
 			.hcs-title {position: relative; bottom: 30px; font-family: "Whitney", bold, sans-serif; display: block; max-height: 12px; font-size: 12px; font-weight: 700; width: 400px; color: #87909C; padding-bottom: 17px; border-bottom: 1px solid #3f4146}
-			.hcs-speedLabel {position: relative; left: 10px; bottom: 20px; color: #b0b6b9}
-			#hcs-speedInput {position: relative; left: 20px; bottom: 21px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: 32px; background: rgba(100, 100, 100, 0.5)}
+			.hcs-speedLabel {position: relative; left: 10px; bottom: 15px; color: #b0b6b9}
+			#hcs-speedInput {position: relative; left: 20px; bottom: 16px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: 32px; background: rgba(100, 100, 100, 0.5)}
 			#hcs-speedInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
 			#hcs-speedInput:disabled {color: rgba(255, 255, 255, 0.3); background: rgba(100, 100, 100, 0.2)}
-			.hcs-typeLabel {position: relative; left: 10px; bottom: 10px; color: #b0b6b9}
-			#hcs-typeInput {position: relative; left: 27px; bottom: 11px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
+			.hcs-typeLabel {position: relative; left: -103px; bottom: -20px; color: #b0b6b9}
+			#hcs-typeInput {position: relative; left: -86px; bottom: -19px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
 			#hcs-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
-			.hcs-save {position: relative; float: right; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px; right: 5px; bottom: 5px}
+			.hcs-save {position: relative; float: right; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px; right: 5px; top: 23px}
 			`;
 		}
-		
+
 		getName() { return "HorizontalCodeScroll"; }
 
 		getDescription() { return "Plugin for horizontal scrolling in Codeblocks."; }
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.6"; }
+		getVersion() { return "1.0.7"; }
 
 		load() {
 			this.checkForUpdate();
@@ -43,7 +43,7 @@ var HorizontalCodeScroll = (function() {
 			$("*").off(".HorizontalCodeScroll");
 			BdApi.clearCSS(this.stylesheet_name);
 		}
-		
+
 		getCodeBelowMouse(e) {
 			let x = e.clientX,
 				y = e.clientY,
@@ -85,11 +85,11 @@ var HorizontalCodeScroll = (function() {
 			let prototypecodeblock = $(codeblock);
 			return prototypecodeblock.outerWidth() * 0.8;
 		}
-		
+
 		hasScrollBar(e) {
 			return e.scrollWidth > e.clientWidth;
 		}
-		
+
 		getSettingsPanel() {
 			let scrollSpeed = bdPluginStorage.get("HorizontalCodeScroll", "scrollSpeed");
 			let scrollType = bdPluginStorage.get("HorizontalCodeScroll", "scrollType");
@@ -99,7 +99,6 @@ var HorizontalCodeScroll = (function() {
 			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
 			let html = '';
 			html += '<span class="hcs-title">' + title + '</span>';
-			html += '<br>';
 			html += '<label class="hcs-speedLabel" for="hcs-speedInput">Scroll Speed</label>';
 			
 			if (scrollType == 'Automatic')
@@ -107,7 +106,6 @@ var HorizontalCodeScroll = (function() {
 			else
 				html += '<input type="text" id="hcs-speedInput" value="' + scrollSpeed + '">';
 
-			html += '<br>';
 			html += '<label class="hcs-typeLabel" for="hcs-typeInput">Scroll Type</label>';
 			html += '<select id="hcs-typeInput" onchange=BdApi.getPlugin("HorizontalCodeScroll").updateSettings() name="scroll type">';
 			html += '<option value="Manual"' + (scrollType == 'Manual' ? 'selected' : '') + '>Manual</option>';
@@ -116,7 +114,7 @@ var HorizontalCodeScroll = (function() {
 			html += '<button class="hcs-save" onclick=BdApi.getPlugin("HorizontalCodeScroll").save()>Save</button>';
 			return html;
 		}
-		
+
 		updateSettings() {
 			let speedInput = $('#hcs-speedInput');
 			let typeInput = $('#hcs-typeInput');
@@ -126,14 +124,14 @@ var HorizontalCodeScroll = (function() {
 			if (scrollType == 'Automatic') speedInput.prop("disabled", true);
 			else speedInput.prop("disabled", false);
 		}
-		
+
 		save() {
 			let scrollSpeed = parseInt($('#hcs-speedInput').val());
 			let scrollType = $('#hcs-typeInput').val();
 			bdPluginStorage.set("HorizontalCodeScroll", "scrollSpeed", scrollSpeed);
 			bdPluginStorage.set("HorizontalCodeScroll", "scrollType", scrollType);
 		}
-		
+
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
 			$.get(githubRaw, (result) => {
