@@ -154,7 +154,6 @@ var HorizontalCodeScroll = (function() {
 			
 			$('*').off('.HorizontalCodeScroll');
 			$('#app-mount').on('mousewheel.HorizontalCodeScroll', e => this.scrollHorizontally(e, scrollSpeed, scrollType, scrollLock));
-			console.log('listeners set\nspeed: ' + scrollSpeed + '\ntype: ' + scrollType + '\nlock: ' + scrollLock);
 		}
 
 		checkForUpdate() {
