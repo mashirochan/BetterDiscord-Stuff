@@ -2,6 +2,14 @@
 var SelectionDefinition = (function() {
 
 	class SelectionDefinition {
+
+		constructor() {
+			this.stylesheet_name = "sd-stylesheet";
+			this.stylesheet = `
+			.sd-popup {position: absolute; color: white; background: #666; padding: 0.5em; display: none}
+			`;
+		}
+
 		getName() { return "SelectionDefinition"; }
 
 		getDescription() { return "Plugin that provides a definition for selected words upon hover."; }
@@ -16,38 +24,59 @@ var SelectionDefinition = (function() {
 
 		start() {
 			var cr = [];
-			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
-			$('#app-mount').append('<div id="popup"></div>');
+			
+			$('.app').append('<div class="sd-popup"></div>');
 			
 			$(document).on('mouseup.SelectionDefinition', () => {
-				cr = window.getSelection().getRangeAt(0).getClientRects();
+				if (window.getSelection().anchorNode != null) cr = window.getSelection().getRangeAt(0).getClientRects();
 			});
 
 			$(document).on('mousemove.SelectionDefinition', ev => {
 				for (var i in cr) {
-					$('#popup').text('').hide();
+					$('.sd-popup').text('').hide();
 					if (ev.pageX >= cr[i].left && ev.pageX <= cr[i].right && ev.pageY >= cr[i].top  && ev.pageY <= cr[i].bottom) {
-						$('#popup').text(this.getSelectionText()).show();
-						//.css({ top: cr[0].top - $('#popup').outerHeight(), left: cr[0].left })
-						console.log('top: ' + (cr[0].top - $('#popup').outerHeight()));
-						console.log('left: ' + cr[0].left);
-						$('#popop').css("position", "absolute");
-						$('#popup').css("top", () => { cr[0].top - $('#popup').outerHeight() });
-						$('#popup').css("left", () => { cr[0].left });
+						let selectionText = this.getSelectionText();
+						if (selectionText == '') $('sd-popup').hide();
+						else {
+							$('.sd-popup').text(selectionText).show();
+							let newTop = cr[0].top - $('.sd-popup').outerHeight();
+							let newLeft = cr[0].left;
+							$('.sd-popup').css({"top": newTop, "left": newLeft});
+						}
 						break;
 					}
 				}
 			});
+			BdApi.clearCSS(this.stylesheet_name);
+			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
+			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
 		stop() {
 			$(document).off(".SelectionDefinition");
-			$('#app-mount').remove('#popup');
+			$('.app').remove('.sd-popup');
+			BdApi.clearCSS(this.stylesheet_name);
 		}	
 
 		test() {
-			$.get()
+			let url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/en/example';
+			$.ajax({
+				url: url,
+				method: 'GET',
+				dataType: 'JSON',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader("Accept", "application/json");
+					xhr.setRequestHeader("app_id", "4af625b3");
+					xhr.setRequestHeader("app_key", "7d494264980005442c4ce94953da8105");
+				},
+				success: function(data) {
+					console.log(data);
+				},
+				error: function(err) {
+					console.log('error: ' + JSON.stringify(err));
+				}
+			});
 		}
 
 		getSelectionText() {
