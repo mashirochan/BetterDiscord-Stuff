@@ -25,11 +25,11 @@ var HorizontalCodeScroll = (function() {
 
 		getName() { return "HorizontalCodeScroll"; }
 
-		getDescription() { return "Plugin for horizontal scrolling in Codeblocks."; }
+		getDescription() { return "Plugin for horizontal scrolling in codeblocks."; }
 
 		getAuthor() { return "Mashiro-chan, spthiel"; }
 
-		getVersion() { return "1.0.8"; }
+		getVersion() { return "1.0.9"; }
 
 		load() {
 			this.checkForUpdate();
@@ -55,7 +55,7 @@ var HorizontalCodeScroll = (function() {
 
 			let currentStack = 0;
 			let maxStack = 10;
-
+			
 			while (elementMouseIsOver.tagName !== 'HTML' && currentStack <= maxStack) {
 				currentStack = currentStack + 1;
 				if (elementMouseIsOver.tagName == 'CODE') {
@@ -75,12 +75,13 @@ var HorizontalCodeScroll = (function() {
 			if (elementToScroll !== null) {
 				let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 				let maxScrollLeft = elementToScroll.scrollWidth - elementToScroll.clientWidth;
+				let oldScrollLeft = elementToScroll.scrollLeft;
 				if (scrollType == 'Manual') {
 					elementToScroll.scrollLeft -= (delta * scrollSpeed);
 				} else {
 					elementToScroll.scrollLeft -= (delta * this.getScrollMultipler(elementToScroll));
 				}
-				if (elementToScroll.scrollLeft != maxScrollLeft && elementToScroll.scrollLeft != 0 && scrollLock === 'Disabled') e.preventDefault();
+				if (oldScrollLeft !== elementToScroll.scrollLeft && scrollLock === 'Disabled') e.preventDefault();
 				else if (scrollLock === 'Enabled') e.preventDefault();
 			}
 		}
@@ -110,7 +111,7 @@ var HorizontalCodeScroll = (function() {
 				html += '<input type="text" id="hcs-speedInput" value="' + scrollSpeed + '" disabled>';
 			else
 				html += '<input type="text" id="hcs-speedInput" value="' + scrollSpeed + '">';
-
+			
 			html += '<label class="hcs-typeLabel" for="hcs-typeInput">Scroll Type</label>';
 			html += '<select id="hcs-typeInput" onchange=BdApi.getPlugin("HorizontalCodeScroll").updateSettings() name="scroll type">';
 			html += '<option value="Manual"' + (scrollType == 'Manual' ? 'selected' : '') + '>Manual</option>';
@@ -145,7 +146,7 @@ var HorizontalCodeScroll = (function() {
 			bdPluginStorage.set("HorizontalCodeScroll", "settings", [scrollSpeed, scrollType, scrollLock]);
 			this.setListener();
 		}
-		
+
 		setListener() {
 			let settings = bdPluginStorage.get("HorizontalCodeScroll", "settings");
 			let scrollSpeed = (settings && settings[0]) ? settings[0] : 200;
