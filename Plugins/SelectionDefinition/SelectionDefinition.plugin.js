@@ -7,7 +7,7 @@ var SelectionDefinition = (function() {
 			this.stylesheet_name = "sd-stylesheet";
 			this.stylesheet = `
 			.sd-popup {position: absolute; white-space: pre-line; color: white; background: rgba(50, 50, 50, 0.7); padding: 6px; border-radius: 8px; display: none}
-			.sd-word {}
+			.sd-word {font-weight: bold}
 			.sd-pro {margin-left: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.8) font-family: 'Roboto', arial, sans-serif}
 			.sd-def {display: block; font-size: 12px; color: rgba(255, 255, 255, 0.7)}
 			`;
@@ -26,39 +26,20 @@ var SelectionDefinition = (function() {
 		}
 
 		start() {
-			var cr = [];
-			var oldSelectionText;
-			var wordData = {};
+			this.clientRect = [];
+			this.oldSelectionText;
+			this.wordData = {};
 			
 			$('.app').append('<div class="sd-popup">');
 			$('.sd-popup').append('<span class="sd-word">').append('<span class="sd-pro">').append('<span class="sd-def">');
 			
 			$(document).on('mouseup.SelectionDefinition', () => {
-				if (window.getSelection().anchorNode != null) cr = window.getSelection().getRangeAt(0).getClientRects();
+				let selection = window.getSelection();
+				let tempClientRect = selection.getRangeAt(0).getClientRects()[0];
+				if (selection.anchorNode != null && tempClientRect && tempClientRect.width != 0) this.clientRect = tempClientRect;
 			});
-
-			$(document).on('mousemove.SelectionDefinition', ev => {
-				for (var i in cr) {
-					$('.sd-popup').hide();
-					if (ev.pageX >= cr[i].left && ev.pageX <= cr[i].right && ev.pageY >= cr[i].top  && ev.pageY <= cr[i].bottom) {
-						let selectionText = this.getSelectionText();
-						if (selectionText == '') $('sd-popup').hide();
-						else {
-							if (selectionText != oldSelectionText) wordData = this.getWordData(selectionText);
-							oldSelectionText = selectionText;
-							
-							$('.sd-popup').show();
-							$('.sd-word').text(wordData.word);
-							$('.sd-pro').text('/' + wordData.pronunciation + '/');
-							$('.sd-def').html(wordData.type + ' · <i>"' + wordData.definition + '."</i>');
-							let newTop = cr[0].top - $('.sd-popup').outerHeight();
-							let newLeft = cr[0].left;
-							$('.sd-popup').css({"top": newTop, "left": newLeft});
-						}
-						break;
-					}
-				}
-			});
+			
+			$(document).on('mousemove.SelectionDefinition', ev => this.showPopup(ev));
 			
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
@@ -70,16 +51,36 @@ var SelectionDefinition = (function() {
 			$(document).off(".SelectionDefinition");
 			$('[class^="sd-"]').remove();
 			BdApi.clearCSS(this.stylesheet_name);
-		}	
+		}
+
+		showPopup(ev) {
+			$('.sd-popup').hide();
+			if (ev.pageX >= this.clientRect.left && ev.pageX <= this.clientRect.right && ev.pageY >= this.clientRect.top  && ev.pageY <= this.clientRect.bottom) {
+				let selectionText = this.getSelectionText();
+				if (selectionText == '' || /([^a-z ])+/ig.test(selectionText)) $('sd-popup').hide();
+				else {
+					if (selectionText != this.oldSelectionText) this.wordData = this.getWordData(selectionText);
+					this.oldSelectionText = selectionText;
+					
+					$('.sd-popup').show();
+					$('.sd-word').text(this.wordData.word);
+					$('.sd-pro').text('/' + this.wordData.pronunciation + '/');
+					$('.sd-def').html(this.wordData.type + ' · <i>"' + this.wordData.definition + '."</i>');
+					let newTop = this.clientRect.top - $('.sd-popup').outerHeight();
+					let newLeft = this.clientRect.left;
+					$('.sd-popup').css({"top": newTop, "left": newLeft});
+				}
+			}
+		}
 
 		getWordData(word) {
-			console.log('api called');
-			let url = 'od-api.oxforddictionaries.com:443/api/v1/entries/en/'+ word + '/regions=us';
+			let url = 'od-api.oxforddictionaries.com:443/api/v1/entries/en/'+ word.replace(/ /g, '_') + '/regions=us';
 			let returnData = {
 				word: '',
 				definition: '',
 				pronunciation: '',
-				example: ''
+				example: '',
+				error: false;
 			};
 			
 			$.ajax({
@@ -92,14 +93,19 @@ var SelectionDefinition = (function() {
 					xhr.setRequestHeader("app_key", "7d494264980005442c4ce94953da8105");
 				},
 				success: (data) => {
-					returnData.word = data.results[0].word;
-					returnData.type = data.results[0].lexicalEntries[0].lexicalCategory;
-					returnData.definition = data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
-					returnData.pronunciation = data.results[0].lexicalEntries[0].pronunciations[0].phoneticSpelling;
-					returnData.example = data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text;
+					try {
+						returnData.word = data.results[0].word;
+						returnData.type = data.results[0].lexicalEntries[0].lexicalCategory;
+						returnData.definition = data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
+						returnData.pronunciation = data.results[0].lexicalEntries[0].pronunciations[0].phoneticSpelling;
+						returnData.example = data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text;
+					} catch (e) {
+						console.error('SelectionDefinition: one or more data parameters could not be returned!');
+					}
 				},
 				error: err => {
-					console.log('error: ' + JSON.stringify(err));
+					returnData.error = true;
+					console.error('SelectionDefinition: error retrieving data on that word or phrase!');
 				}
 			});
 			return returnData;
@@ -164,6 +170,6 @@ var SelectionDefinition = (function() {
 			if (!$('#outdatedPlugins').children('span').length) $('#pluginNoticeDismiss').click();
 		}
 	}
-	
+
 	return SelectionDefinition;
 })();
