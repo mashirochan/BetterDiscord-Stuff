@@ -33,13 +33,13 @@ var SelectionDefinition = (function() {
 			$('.app').append('<div class="sd-popup">');
 			$('.sd-popup').append('<span class="sd-word">').append('<span class="sd-pro">').append('<span class="sd-def">');
 			
-			$(document).on('mouseup.SelectionDefinition', () => {
+			$(document).on('mouseup.SelectionDefinition', () => { // dynamically wrap selection in span
 				let selection = window.getSelection();
 				let tempClientRect = selection.getRangeAt(0).getClientRects()[0];
 				if (selection.anchorNode != null && tempClientRect && tempClientRect.width != 0) this.clientRect = tempClientRect;
 			});
 			
-			$(document).on('mousemove.SelectionDefinition', ev => this.showPopup(ev));
+			$(document).on('mousemove.SelectionDefinition', ev => this.showPopup(ev)); // add setting to change hover duration requirement
 			
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
@@ -80,7 +80,7 @@ var SelectionDefinition = (function() {
 				definition: '',
 				pronunciation: '',
 				example: '',
-				error: false;
+				error: false
 			};
 			
 			$.ajax({
