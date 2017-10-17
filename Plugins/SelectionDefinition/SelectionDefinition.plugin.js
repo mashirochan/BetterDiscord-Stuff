@@ -6,7 +6,10 @@ var SelectionDefinition = (function() {
 		constructor() {
 			this.stylesheet_name = "sd-stylesheet";
 			this.stylesheet = `
-			.sd-popup {position: absolute; color: white; background: #666; padding: 0.5em; display: none}
+			.sd-popup {position: absolute; white-space: pre-line; color: white; background: rgba(50, 50, 50, 0.7); padding: 6px; border-radius: 8px; display: none}
+			.sd-word {}
+			.sd-pro {margin-left: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.8) font-family: 'Roboto', arial, sans-serif}
+			.sd-def {display: block; font-size: 12px; color: rgba(255, 255, 255, 0.7)}
 			`;
 		}
 
@@ -24,8 +27,11 @@ var SelectionDefinition = (function() {
 
 		start() {
 			var cr = [];
+			var oldSelectionText;
+			var wordData = {};
 			
-			$('.app').append('<div class="sd-popup"></div>');
+			$('.app').append('<div class="sd-popup">');
+			$('.sd-popup').append('<span class="sd-word">').append('<span class="sd-pro">').append('<span class="sd-def">');
 			
 			$(document).on('mouseup.SelectionDefinition', () => {
 				if (window.getSelection().anchorNode != null) cr = window.getSelection().getRangeAt(0).getClientRects();
@@ -33,12 +39,18 @@ var SelectionDefinition = (function() {
 
 			$(document).on('mousemove.SelectionDefinition', ev => {
 				for (var i in cr) {
-					$('.sd-popup').text('').hide();
+					$('.sd-popup').hide();
 					if (ev.pageX >= cr[i].left && ev.pageX <= cr[i].right && ev.pageY >= cr[i].top  && ev.pageY <= cr[i].bottom) {
 						let selectionText = this.getSelectionText();
 						if (selectionText == '') $('sd-popup').hide();
 						else {
-							$('.sd-popup').text(selectionText).show();
+							if (selectionText != oldSelectionText) wordData = this.getWordData(selectionText);
+							oldSelectionText = selectionText;
+							
+							$('.sd-popup').show();
+							$('.sd-word').text(wordData.word);
+							$('.sd-pro').text('/' + wordData.pronunciation + '/');
+							$('.sd-def').html(wordData.type + ' · <i>"' + wordData.definition + '."</i>');
 							let newTop = cr[0].top - $('.sd-popup').outerHeight();
 							let newLeft = cr[0].left;
 							$('.sd-popup').css({"top": newTop, "left": newLeft});
@@ -47,6 +59,7 @@ var SelectionDefinition = (function() {
 					}
 				}
 			});
+			
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
@@ -55,28 +68,41 @@ var SelectionDefinition = (function() {
 
 		stop() {
 			$(document).off(".SelectionDefinition");
-			$('.app').remove('.sd-popup');
+			$('[class^="sd-"]').remove();
 			BdApi.clearCSS(this.stylesheet_name);
 		}	
 
-		test() {
-			let url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/en/example';
+		getWordData(word) {
+			console.log('api called');
+			let url = 'od-api.oxforddictionaries.com:443/api/v1/entries/en/'+ word + '/regions=us';
+			let returnData = {
+				word: '',
+				definition: '',
+				pronunciation: '',
+				example: ''
+			};
+			
 			$.ajax({
-				url: url,
-				method: 'GET',
-				dataType: 'JSON',
-				beforeSend: function(xhr) {
+				url: 'https://cors-anywhere.herokuapp.com/' + url,
+				type: 'GET',
+				async: false,
+				beforeSend: xhr => {
 					xhr.setRequestHeader("Accept", "application/json");
 					xhr.setRequestHeader("app_id", "4af625b3");
 					xhr.setRequestHeader("app_key", "7d494264980005442c4ce94953da8105");
 				},
-				success: function(data) {
-					console.log(data);
+				success: (data) => {
+					returnData.word = data.results[0].word;
+					returnData.type = data.results[0].lexicalEntries[0].lexicalCategory;
+					returnData.definition = data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
+					returnData.pronunciation = data.results[0].lexicalEntries[0].pronunciations[0].phoneticSpelling;
+					returnData.example = data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text;
 				},
-				error: function(err) {
+				error: err => {
 					console.log('error: ' + JSON.stringify(err));
 				}
 			});
+			return returnData;
 		}
 
 		getSelectionText() {
