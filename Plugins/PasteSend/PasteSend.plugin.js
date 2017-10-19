@@ -12,8 +12,8 @@ var PasteSend = (function() {
 			#ps-hotkeyInput {position: absolute; left: 70px; top: 3px; border: none; border-radius: 8px; padding: 1px 8px 0px 8px; color: rgba(255, 255, 255, 0.7); font-size: 14px; height: 16px; background: rgba(100, 100, 100, 0.5)}
 			.ps-typeLabel {position: absolute; left: 10px; top: 40px; color: #b0b6b9}
 			#ps-typeInput {position: absolute; left: 95px; top: 39px; border: none; border-radius: 8px; padding-left: 8px; color: rgba(255, 255, 255, 0.7); width: auto; background: rgba(100, 100, 100, 0.5)}
-			#ps-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(114, 137, 218, 0.7)}
-			.ps-change {position: absolute; left: 220px; top: -3px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
+			#ps-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(255, 98, 98, 0.7)}
+			.ps-change {position: absolute; left: 220px; top: -4px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
 			.ps-save {position: absolute; right: 5px; top: 41px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
 			`;
 		}
@@ -24,7 +24,7 @@ var PasteSend = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.1"; }
+		getVersion() { return "1.0.2"; }
 
 		load() {
 			this.checkForUpdate();
@@ -85,7 +85,7 @@ var PasteSend = (function() {
 		}
 
 		sendMessage(text) {
-			let textarea = document.querySelector(".channel-text-area-default");
+			let textarea = document.querySelector('[class*="innerEnabled"]');
 			if (textarea) {
 				let textinput = textarea.querySelector("textarea");
 				if (textinput) {
@@ -115,7 +115,7 @@ var PasteSend = (function() {
 			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
 			let html = '';
 			html += '<div class="ps-settings">';
-			html += '<span class="ps-title" style="color: #fff">' + title + '</span>';
+			html += '<span class="ps-title">' + title + '</span>';
 			
 			html += '<label class="ps-hotkeyLabel">Hotkey</label>';
 			
@@ -133,8 +133,8 @@ var PasteSend = (function() {
 			html += '<option value="Replace"' + (pasteType == 'Replace' ? 'selected' : '') + '>Replace</option>';
 			html += '</select>';
 			
-			html += '<button class="ps-change" style="float: right" onclick=BdApi.getPlugin("PasteSend").changeHotkey()>Change</button>';
-			html += '<button class="ps-save" style="float: right" onclick=BdApi.getPlugin("PasteSend").save()>Save</button>';
+			html += '<button class="ps-change" onclick=BdApi.getPlugin("PasteSend").changeHotkey()>Change</button>';
+			html += '<button class="ps-save" onclick=BdApi.getPlugin("PasteSend").save()>Save</button>';
 			html += '</div>';
 			return html;
 		}
@@ -144,7 +144,7 @@ var PasteSend = (function() {
 			let keys = [];
 			let hotkeyInput = $('#ps-hotkeyInput');
 			hotkeyInput.text('');
-			hotkeyInput.css('box-shadow', '0 0 3pt 2pt rgba(114, 137, 218, 0.7)');
+			hotkeyInput.css('box-shadow', '0 0 3pt 2pt rgba(255, 98, 98, 0.7)');
 			
 			$('#app-mount').on('keydown.PasteSendChange', e => {
 				if (!active || keys.includes(e.key)) return;
