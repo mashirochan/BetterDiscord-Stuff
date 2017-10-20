@@ -15,7 +15,17 @@ var PasteSend = (function() {
 			#ps-typeInput:focus {outline: none; box-shadow: 0 0 3pt 2pt rgba(255, 98, 98, 0.7)}
 			.ps-change {position: absolute; left: 220px; top: -4px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
 			.ps-save {position: absolute; right: 5px; top: 41px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
+			.ps-item {color: rgba(255, 255, 255, 0.6); margin: 2px 0px; padding: 6px 9px; line-height: 16px; font-size: 13px; font-weight: 500;}
+			.ps-item:hover {color: #FFF; background: rgba(0, 0, 0, 0.2);}
 			`;
+			
+			this.serverContextEntryMarkup =
+			`<div class="item-group">
+				<div class="ps-item">
+					<span>Paste and Send</span>
+					<div class="hint"></div>
+				</div>
+			</div>`;
 		}
 
 		getName() { return "PasteSend"; }
@@ -33,6 +43,21 @@ var PasteSend = (function() {
 		start() {
 			this.setListener();
 			
+			this.serverContextObserver = new MutationObserver((changes, _) => {
+				changes.forEach(
+					(change, i) => {
+						if (change.addedNodes) {
+							change.addedNodes.forEach((node) => {
+								if (node.nodeType == 1 && node.className.includes("context-menu")) {
+									this.onContextMenu(node);
+								}
+							});
+						}
+					}
+				);
+			});
+			if (document.querySelector(".app")) this.serverContextObserver.observe(document.querySelector(".app"), {childList: true});
+			
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			
@@ -43,17 +68,25 @@ var PasteSend = (function() {
 		stop() {
 			$('*').off('.PasteSend');
 			$('*').off('.PasteSendChange');
+			$('.ps-item').remove();
 			BdApi.clearCSS(this.stylesheet_name);
 		}
-		
+
+		onContextMenu (context) {
+			if ($(context).children().length == 1) {
+				$(context).append(this.serverContextEntryMarkup);
+				$(context).css("top", "-=60px");
+			}
+		}
+
 		setListener() {
 			let storageKeys = bdPluginStorage.get("PasteSend", "storageKeys");
 			let pasteType = bdPluginStorage.get("PasteSend", "pasteType");
 			storageKeys = storageKeys ? storageKeys : ["Control", "Shift", "V"];
 			pasteType = pasteType ? pasteType : 'Append';
 			let keys = [];
-			var cooldown = 1 * 1000;
-			var canUse = true;
+			let cooldown = 1 * 1000;
+			let canUse = true;
 			$('*').off('.PasteSend');
 			$('*').off('.PasteSendChange');
 
@@ -62,17 +95,7 @@ var PasteSend = (function() {
 				if (!keys.includes(e.key)) keys.push(e.key);
 				if (storageKeys.every(storageKey => keys.includes(storageKey))) {
 					setImmediate(() => {
-						var text = '';
-						let clipboardText = require('electron').clipboard.readText();
-						if (pasteType == 'Replace') text = clipboardText;
-						else if (pasteType == 'Append') {
-							text = $('.textArea-20yzAH').val();
-							storageKeys.every(storageKey => {
-								if (storageKey.length == 1) text = text.substring(0, text.lastIndexOf(storageKey, clipboardText.length));
-							});
-							if (!storageKeys.includes("Control") || !storageKeys.includes("V")) text += clipboardText;
-						}
-						this.sendMessage(text);
+						this.sendMessage(storageKeys, pasteType, 'keyboard');
 					});
 					canUse = false;
 					setTimeout(() => { canUse = true; }, cooldown);
@@ -82,9 +105,22 @@ var PasteSend = (function() {
 			$('#app-mount').on('keyup.PasteSend', '.textArea-20yzAH', e => {
 				keys.splice(keys.indexOf(e.key), 1);
 			});
+			
+			$('#app-mount').on('click.PasteSend', '.ps-item', () => this.sendMessage(storageKeys, pasteType, 'context'));
 		}
 
-		sendMessage(text) {
+		sendMessage(storageKeys, pasteType, inputType) {
+			let text = '';
+			let clipboardText = require('electron').clipboard.readText();
+			if (pasteType == 'Replace') text = clipboardText;
+			else if (pasteType == 'Append') {
+				text = $('.textArea-20yzAH').val();
+				console.log('text: ' + text);
+				storageKeys.every(storageKey => {
+					if (storageKey.length == 1) text = text.substring(0, text.lastIndexOf(storageKey, clipboardText.length));
+				});
+				if (!storageKeys.includes("V") || !storageKeys.includes("Control") || inputType == 'context') text += clipboardText;
+			}
 			let textarea = document.querySelector('[class*="innerEnabled"]');
 			if (textarea) {
 				let textinput = textarea.querySelector("textarea");
