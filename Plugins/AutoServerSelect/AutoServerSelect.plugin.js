@@ -9,7 +9,7 @@ var AutoServerSelect = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.2"; }
+		getVersion() { return "1.0.3"; }
 
 		load() {
 			this.checkForUpdate();
@@ -17,22 +17,25 @@ var AutoServerSelect = (function() {
 
 		start() {
 			let server = bdPluginStorage.get("AutoServerSelect", "server");
-			if (!server) return;
+			if (!server || server == '') return;
 			
-			$('.guild-inner a[href^="' + server + '"]')[0].click();
+			if (!$('.guild-inner a[href^="' + server + '"]').length) console.error('AutoServerSelect: server cannot be found!');
+			else $('.guild-inner a[href^="' + server + '"]')[0].click();
+			
+			$('#app-mount').on('click.AutoServerSelect', 'a.avatar-small', (e) => {
+				let server = $(e.target).attr('href');
+				if (server === undefined) return;
+				server = server.match(/\/channels\/[0-9]+\//g);
+				bdPluginStorage.set("AutoServerSelect", "server", server);
+			});
 			
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
-		onSwitch() {
-			let server = $('.guild.selected .avatar-small').attr('href');
-			if (server === undefined) return;
-			server = server.match(/\/channels\/[0-9]+\//g);
-			bdPluginStorage.set("AutoServerSelect", "server", server);
+		stop() {
+			$('*').off('.AutoServerSelect');
 		}
-
-		stop() { }
 
 		checkForUpdate() {
 			const githubRaw = "https://raw.githubusercontent.com/mashirochan/Mashiro-chan/master/Plugins/" + this.getName() + "/" + this.getName() + ".plugin.js";
