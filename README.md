@@ -12,11 +12,9 @@
 ![Settings](https://i.imgur.com/sDEUL8z.png)
 <img src="/Themes/Transparency/TransparencyThemePreview.gif?raw=true">
 ###### Enabling Client Transparency
-1. Open `index.js` located under `%LocalAppData%\Discord\<version number>\resources\app`
-2. Change `transparent` (line 498) to `true`
-3. Delete the `backgroundColor` line (line 493)
-4. Add `app.commandLine.appendSwitch('enable-transparent-visuals');` on line 82
-5. Restart Discord completely and make sure you have a transparent theme!
+1. Download my Transparency Patcher plugin - [Download](https://betterdiscord.net/ghdl?id=1067)
+2. Go into the settings and click the "Enable" button.
+3. Wait for Discord to restart itself and make sure you have a transparent theme!
 
 ###### Notable Visual Plugins
 * Date Viewer - hammy                                      https://betterdiscord.net/ghdl?id=901
@@ -57,3 +55,9 @@
 ### Paste Send - [Download](https://betterdiscord.net/ghdl?id=1045)
 ###### Plugin that automatically sends pasted text (default shortcut is Ctrl + Shift + V).
 <img src="/Plugins/PasteSend/PasteSendPreview.gif?raw=true">
+
+***
+
+### Transparency Patcher - [Download](https://betterdiscord.net/ghdl?id=1067)
+###### Plugin that automatically enables client transparency.
+<img src="/Plugins/TransparencyPatcher/TransparencyPatcherPreview.gif?raw=true">
