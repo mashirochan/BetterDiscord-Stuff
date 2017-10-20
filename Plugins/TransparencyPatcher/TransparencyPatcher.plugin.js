@@ -3,6 +3,17 @@ var TransparencyPatcher = (function() {
 
 	class TransparencyPatcher {
 
+		constructor() {
+			this.stylesheet_name = "tp-stylesheet";
+			this.stylesheet = `
+			.tp-settings {position: relative}
+			.tp-title {position: absolute; top: -30px; font-family: "Whitney", bold, sans-serif; display: block; max-height: 12px; font-size: 12px; font-weight: 700; width: 400px; color: #87909C; padding-bottom: 17px; border-bottom: 1px solid #3f4146}
+			.tp-label {position: absolute; left: 10px; top: 25px; color: #b0b6b9}
+			.tp-enable {position: absolute; left: 120px; top: 18px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
+			.tp-disable {position: absolute; left: 200px; top: 18px; color: #fff; background-color: #7289da; border-radius: 5px; height: 30px; width: 60px}
+			`;
+		}
+
 		getName() { return "TransparencyPatcher"; }
 
 		getDescription() { return "Plugin that automatically enables client transparency."; }
@@ -15,148 +26,85 @@ var TransparencyPatcher = (function() {
 			this.checkForUpdate();
 		}
 
-		start() {			
+		start() {
+			BdApi.clearCSS(this.stylesheet_name);
+			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
 
 		stop() {
-			
+			BdApi.clearCSS(this.stylesheet_name);
 		}
-		
-		patchForTransparency(undo) {
-			var errors = '';
 
-			let file = require('electron').remote.app.getAppPath() + '\\index.js';
+		patchForTransparency(enable) {
+			let app = require('electron').remote.app;
+			
+			let file = app.getAppPath() + '\\index.js';
 			
 			let line1Pattern = 'transparent: ';
-			let line1Original = 'transparent: false';
-			let line1New = 'transparent: true';
 
-			let line2Pattern = 'var app = _electron2.default.app;';
+			let line2Pattern = 'shell = _electron2.default.shell;';
 			let line2ToAdd = 'app.commandLine.appendSwitch(\'enable-transparent-visuals\');';
 			
-			let line3Pattern = 'backgroundColor: ';
-			let line3Original = 'backgroundColor: ACCOUNT_GREY';
-			let line3New = 'backgroundColor: \'#00000000\'';
+			let line3Pattern = 'title: \'Discord\',';
+			let line3ToRemove = 'backgroundColor: ACCOUNT_GREY,';
 
-			//open file
-			fs = require("fs");
-			fs.readFile(file, "utf8", function (err,data) {
+			var fs = require("fs");
+			fs.readFile(file, "utf8", (err, data) => {
 				if (err) {
-					alert("Unable to read file " + file + ". See console for error object.");
-					console.error("Error while reading file: ", err);
+					console.error('TransparencyPatcher: error when reading file: ' + file, err);
 					return;
 				}
-
-				//We can easily just replace our patterns with our new lines, 
-				//but that's just too easy, so let's loop through every line
-				//and do unneeded error checks.
-				//Yes, I wrote this afer finishing the code below.
-
-				//cut into a billion little pieces
-				var split = data.split('\r\n');
-
-				//find the right lines
-				for (var i = 0; i < split.length; i++) {
-					if (split[i].indexOf(line1Pattern) !== -1) {
-						var origaa = split[i];
-						if (!undo) {	//false to true
-							if (split[i].indexOf(line1Original) !== -1) {
-								split[i] = split[i].replace(line1Original, line1New);
-								console.log("Patched 'transparent: false' to true on line " + (i+1));
-							} else {
-								//already enabled
-								console.warn("Already patched transparent: false!");
-								errors += 'Already patched "transparent: false"!\n';
-							}
-						} else {	//true to false, undo patch
-							if (split[i].indexOf(line1New) !== -1) {
-								split[i] = split[i].replace(line1New, line1Original);
-								console.log("Patched 'transparent: true' to false on line " + (i+1));
-							} else {
-								//already enabled
-								console.warn("Already patched transparent: false!");
-								errors += 'Already patched "transparent: false"!\n';
-							}
-						}
-					} 
-					if (split[i].indexOf(line2Pattern) !== -1) {	//found line to patch
-						if (!undo) {
-							if (split[i].indexOf(line2ToAdd) === -1) {	//patch not added yet
-								split[i] += line2ToAdd;
-								console.log("Added enable-transparent-visuals on line " + (i+1));
-							} else {
-								//already added
-								console.warn("Already added enable-transparent-visuals!");
-								errors += 'Already added "enable-transparent-visuals"!\n';
-							}
-						} else {
-							if (split[i].indexOf(line2ToAdd) !== -1) {	//patch already added
-								split[i] = line2Pattern;
-								console.log("Removed enable-transparent-visuals on line " + (i+1) + " by restoring the original.");
-							} else {
-								//already removed
-								console.warn("enable-transparent-visuals was not present on line " + (i+1) + "!");
-								errors += "enable-transparent-visuals was not present on line " + (i+1) + "!\n";
-							}
-						}
-					}
-					if (split[i].indexOf(line3Pattern) !== -1) {
-						var origaa = split[i];
-						if (!undo) {	//false to true
-							if (split[i].indexOf(line3Original) !== -1) {
-								split[i] = split[i].replace(line3Original, line3New);
-								console.log("Patched backgroundColor: 'ACCOUNT_GREY' to '#00000000' on line " + (i+1));
-							} else {
-								//already enabled
-								console.warn("Already patched backgroundColor: 'ACCOUNT_GREY'!");
-								errors += 'Already patched backgroundColor: "ACCOUNT_GREY"!\n';
-							}
-						} else {	//true to false, undo patch
-							if (split[i].indexOf(line3New) !== -1) {
-								split[i] = split[i].replace(line3New, line3Original);
-								console.log("Patched backgroundColor: '#00000000' to 'ACCOUNT_GREY' on line " + (i+1));
-							} else {
-								//already enabled
-								console.warn("Already patched backgroundColor: '#00000000'!");
-								errors += 'Already patched backgroundColor: "#00000000"!\n';
-							}
-						}
-					} 
+				
+				let fileLines = data.split('\r\n');
+				
+				let line1Index = fileLines.findIndex(e => { return e.includes(line1Pattern); });
+				if (enable && fileLines[line1Index].includes('true') || !enable && fileLines[line1Index].includes('false')) console.log('Transparent has already been set to ' + (enable ? 'true' : 'false') + '!');
+				else {
+					fileLines[line1Index] = '      transparent: ' + (enable ? 'true' : 'false') + ',';
+					console.log('Transparent successfully set to ' + enable + '!');
 				}
+				
+				let line2Index = fileLines.findIndex(e => { return e.includes(line2Pattern); });
+				if (enable && fileLines[line2Index + 1].includes(line2ToAdd) || !enable && !fileLines[line2Index + 1].includes(line2ToAdd)) console.log('Transparent visuals have already been ' + (enable ? 'enabled' : 'disabled') + '!');
+				else {
+					if (enable) fileLines.splice(line2Index + 1, 0, line2ToAdd);
+					else if (!enable) fileLines.splice(line2Index + 1, 1);
+					console.log('Transparent visuals successfully ' + (enable ? 'enabled' : 'disabled') + '!');
+				}
+				
+				let line3Index = fileLines.findIndex(e => { return e.includes(line3Pattern); });
+				if (enable && !fileLines[line3Index + 1].includes(line3ToRemove) || !enable && fileLines[line3Index + 1].includes(line3ToRemove)) console.log('Background color has already been ' + (enable ? 'removed' : 'added') + '!');
+				else {
+					if (enable) fileLines.splice(line3Index + 1, 1);
+					else if (!enable) fileLines.splice(line3Index + 1, 0, '      ' + line3ToRemove);
+					console.log('Background color successfully ' + (enable ? 'removed' : 'added') + '!');
+				}
+				
+				let toWrite = fileLines.join('\r\n');
 
-				//join everything again
-				var toWrite = split.join('\r\n');
-
-				//write
-				fs.writeFile(file, toWrite, function(err2) {
-					if(err2) {
-						//alert("Unable to write file to " + file + ". See console for error object.");
-						errors += "Unable to write file to " + file + ". See console for error object.";
-						console.error("Error while writing file: ", err2);
+				fs.writeFile(file, toWrite, err2 => {
+					if (err2) console.error('TransparencyPatcher: error when reading file: ' + file, err2);
+					else {
+						console.log("The file was saved!");
+						app.relaunch();
+						app.exit();
 					}
-
-					console.log("The file was saved!");
-
-					if (errors !== "")
-						alert(errors, "We may or may not have some problems...\n\n" + errors);
-					else
-						alert("Edited config file has been written!\n\nPlease restart Discord and then reload using CTRL+R to complete the patch.", "Success!");
 				}); 
 			});
-		};
-		
-		getSettingsPanel() {
-			let html = '';
-			html += '<h3>Settings Panel</h3>';
-			let js1 = 'BdApi.getPlugin("' + this.getName() + '").patchForTransparency(false);';
-			let js2 = 'BdApi.getPlugin("' + this.getName() + '").patchForTransparency(true);';
-			html += 'Use these buttons to apply or remove the patch: </br>';
-			html += '<button onclick="' + js1 + '">Enable patch</button>';
-			html += '<button onclick="' + js2 + '">Disable patch</button>';
+		}
 
-			return string;
+		getSettingsPanel() {
+			let title = this.getName() + ' v' + this.getVersion() + ' by ' + this.getAuthor();
+			let html = '';
+			html += '<div class="tp-settings">';
+			html += '<span class="tp-title">' + title + '</span>';
+			html += '<span class="tp-label">Transparency</span>';
+			html += '<button class="tp-enable" onclick=BdApi.getPlugin("TransparencyPatcher").patchForTransparency(true)>Enable</button>';
+			html += '<button class="tp-disable" onclick=BdApi.getPlugin("TransparencyPatcher").patchForTransparency(false)>Disable</button>';
+			html += '</div>';
+			return html;
 		}
 
 		checkForUpdate() {
