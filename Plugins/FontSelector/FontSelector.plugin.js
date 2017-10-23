@@ -19,6 +19,15 @@ var FontSelector = (function() {
 			console.log(this.getName() + ' loaded. Current version: ' + this.getVersion());
 			this.checkForUpdate();
 		}
+		
+		test() {
+			const fontsFolder = 'C:\\Windows\\Fonts';
+			const fs = require('fs');
+
+			fs.readdirSync(fontsFolder).forEach(font => {
+				if (font.endsWith('.ttf')) console.log(font);
+			});
+		}
 
 		stop() {
 		
