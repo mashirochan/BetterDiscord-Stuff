@@ -11,9 +11,18 @@ var SelectionDefinition = (function() {
 			.sd-pro {margin-left: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.8) font-family: 'Roboto', arial, sans-serif}
 			.sd-def {display: block; font-size: 12px; color: rgba(255, 255, 255, 0.7)}
 			.sd-item {color: rgba(255, 255, 255, 0.6); margin: 2px 0px; padding: 6px 9px; line-height: 16px; font-size: 13px; font-weight: 500;}
-			.sd-item:hover {color: #FFF; background: rgba(0, 0, 0, 0.2);}
-			.sd-backdrop {background-color: rgba(0, 0, 0, 0.5); border-radius: 8px; display: flex; contain: layout; position: absolute; z-index: 3000; height: 100%; width: 100%}
-			.sd-modal {background-color: rgba(100, 100, 100, 1.0); border-radius: 8px; height: 75%; width:50%; position: relative; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+			.sd-item:hover {color: #fff; background: rgba(0, 0, 0, 0.2);}
+			.sd-backdrop {background-color: rgba(0, 0, 0, 0.5); border: 1px solid rgba(28, 36, 43, 0.6); box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2); border-radius: 8px; display: flex; contain: layout; position: absolute; z-index: 3000; height: 100%; width: 100%}
+			.sd-modal {background-color: #2f3136; border-radius: 8px; height: 540px; width: 640px; position: relative; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+			.sd-modal-word {color: #fff; background-color: #35393e; height: 60px; border-radius: 8px 8px 0px 0px;}
+			.sd-modal-pro {color: rgba(255, 255, 255, 0.7); position: absolute; top: 40px}
+			.sd-modal-group {width: 500px; height: 150px; position: absolute; left: 70px; background-color: rgba(50, 50, 50, 1.0); border-radius: 8px;}
+			.sd-modal-group:first-of-type {top: 80px;}
+			.sd-modal-group:last-of-type {top: 290px;}
+			.sd-modal-type {color: #43b581; position: absolute;}
+			.sd-modal-def {color: #99aab5; position: absolute; top: 40px;}
+			.sd-modal-example {color: rgba(255, 255, 255, 0.7); position: absolute; top: 120px;}
+			.sd-modal-entym {color: rgba(255, 255, 255, 0.7); background-color: rgba(40, 43, 48, 0.6);}
 			`;
 			
 			this.contextEntryMarkup =
@@ -21,6 +30,25 @@ var SelectionDefinition = (function() {
 				<div class="sd-item">
 					<span>Get Definition</span>
 					<div class="hint"></div>
+				</div>
+			</div>`;
+			
+			this.modalHTML = 
+			`<div class="sd-backdrop">
+				<div class="sd-modal">
+					<div class="sd-modal-word" />
+					<span class="sd-modal-pro" />
+					<div class="sd-modal-group">
+						<span class="sd-modal-type" />
+						<span class="sd-modal-def" />
+						<span class="sd-modal-example" />
+					</div>
+					<div class="sd-modal-group">
+						<span class="sd-modal-type" />
+						<span class="sd-modal-def" />
+						<span class="sd-modal-example" />
+					</div>
+					<div class="sd-modal-entym" />
 				</div>
 			</div>`;
 		}
@@ -38,6 +66,9 @@ var SelectionDefinition = (function() {
 		}
 
 		start() {
+			this.showModal();
+			
+			
 			this.clientRect = [];
 			this.oldSelectionText;
 			this.wordData = {};
@@ -123,6 +154,7 @@ var SelectionDefinition = (function() {
 		stop() {
 			$('*').off(".SelectionDefinition");
 			$('[class^="sd-"]').remove();
+			$('.item-group > .sd-item').remove();
 			BdApi.clearCSS(this.stylesheet_name);
 		}
 		
@@ -142,9 +174,7 @@ var SelectionDefinition = (function() {
 				this.oldSelectionText = selectionText;
 				
 				$('.sd-popup').show();
-				$('.sd-word').text(this.wordData.word);
-				$('.sd-pro').text('/' + this.wordData.pronunciation + '/');
-				$('.sd-def').html(this.wordData.type + ' · <i>"' + this.wordData.definition + '."</i>');
+				this.setWordData('popup');
 				let newTop = this.clientRect.top - $('.sd-popup').outerHeight();
 				let newLeft = this.clientRect.left;
 				$('.sd-popup').css({"top": newTop, "left": newLeft});
@@ -153,17 +183,22 @@ var SelectionDefinition = (function() {
 
 		showModal() {
 			$('.sd-backdrop').remove();
-			$('.app').append('<div class="sd-backdrop">');
-			$('.sd-backdrop').append('<div class="sd-modal">');
+			$('.app').append(this.modalHTML);
+			this.setWordData('modal');
 		}
-		
+
 		getWordData(word) {
-			let url = 'od-api.oxforddictionaries.com:443/api/v1/entries/en/'+ word.replace(/ /g, '_') + '/regions=us';
+			let url = 'od-api.oxforddictionaries.com:443/api/v1/entries/en/'+ word.trim().replace(/ /g, '_') + '/regions=us';
 			let returnData = {
 				word: '',
-				definition: '',
+				type1: '',
+				type2: '',
+				definition1: '',
+				definition2: '',
 				pronunciation: '',
-				example: '',
+				example1: '',
+				example2: '',
+				entymologies: '',
 				error: false
 			};
 			
@@ -179,10 +214,14 @@ var SelectionDefinition = (function() {
 				success: (data) => {
 					try {
 						returnData.word = data.results[0].word;
-						returnData.type = data.results[0].lexicalEntries[0].lexicalCategory;
-						returnData.definition = data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
+						returnData.type1 = data.results[0].lexicalEntries[0].lexicalCategory;
+						returnData.type2 = data.results[0].lexicalEntries[1].lexicalCategory;
+						returnData.definition1 = data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
+						returnData.definition2 = data.results[0].lexicalEntries[1].entries[0].senses[0].definitions[0];
 						returnData.pronunciation = data.results[0].lexicalEntries[0].pronunciations[0].phoneticSpelling;
-						returnData.example = data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text;
+						returnData.example1 = data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text;
+						returnData.example2 = data.results[0].lexicalEntries[1].entries[0].senses[0].examples[0].text;
+						returnData.entymologies = data.results[0].lexicalEntries[0].entries[0].etymologies[0];
 					} catch (e) {
 						console.error('SelectionDefinition: one or more data parameters could not be returned!');
 					}
@@ -193,6 +232,37 @@ var SelectionDefinition = (function() {
 				}
 			});
 			return returnData;
+		}
+
+		setWordData(type) {
+			let wordData = {
+				word: "example",
+				type1: "Noun",
+				type2: "Verb",
+				definition1: "a thing characteristic of its kind or illustrating a general rule",
+				definition2: "be illustrated or exemplified",
+				pronunciation: "ɪɡˈzæmpəl",
+				example1: "some of these carpets are among the finest examples of the period",
+				example2: "the extent of Allied naval support is exampled by the navigational specialists provided",
+				entymologies: "late Middle English: from Old French, from Latin exemplum, from eximere ‘take out’, from ex- ‘out’ + emere ‘take’. Compare with sample",
+				error: false
+			};
+			
+			if (type === 'popup') {
+				$('.sd-word').text(wordData.word);
+				$('.sd-pro').text('/' + wordData.pronunciation + '/');
+				$('.sd-def').html(wordData.type1 + ' · <i>"' + wordData.definition1 + '."</i>');
+			} else if (type === 'modal') {
+				$('.sd-modal-word').text(wordData.word);
+				$('.sd-modal-pro').text('/' + wordData.pronunciation + '/');
+				$('.sd-modal-type').eq(0).text(wordData.type1);
+				$('.sd-modal-def').eq(0).text(wordData.definition1);
+				$('.sd-modal-example').eq(0).text(wordData.example1);
+				$('.sd-modal-type').eq(1).text(wordData.type2);
+				$('.sd-modal-def').eq(1).text(wordData.definition2);
+				$('.sd-modal-example').eq(1).text(wordData.example2);
+				$('.sd-modal-entym').text(wordData.entymologies);
+			}
 		}
 
 		getSelectionText() {
