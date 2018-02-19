@@ -20,7 +20,7 @@ var TransparencyPatcher = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.0"; }
+		getVersion() { return "1.0.1"; }
 
 		load() {
 			this.checkForUpdate();
@@ -39,13 +39,17 @@ var TransparencyPatcher = (function() {
 
 		patchForTransparency(enable) {
 			let app = require('electron').remote.app;
+			let isCanary = false;
 			
-			let file = app.getAppPath() + '\\index.js';
+			if (process.argv0.includes('Canary')) isCanary = true;
+			let appDataPath = app.getAppPath().substring(0, app.getAppPath().indexOf('Local')) + 'Roaming\\';
+			
+			let file = appDataPath + 'discord' + (isCanary ? 'canary' : '') + '\\' + app.getVersion() + '\\modules\\discord_desktop_core\\core\\app\\mainScreen.js';
 			
 			let line1Pattern = 'transparent: ';
 
-			let line2Pattern = 'shell = _electron2.default.shell;';
-			let line2ToAdd = 'app.commandLine.appendSwitch(\'enable-transparent-visuals\');';
+			let line2Pattern = 'var splashScreen = _interopRequireWildcard(_splashScreen);';
+			let line2ToAdd = '_electron.app.commandLine.appendSwitch(\'enable-transparent-visuals\');';
 			
 			let line3Pattern = 'title: \'Discord\',';
 			let line3ToRemove = 'backgroundColor: ACCOUNT_GREY,';
@@ -62,7 +66,7 @@ var TransparencyPatcher = (function() {
 				let line1Index = fileLines.findIndex(e => { return e.includes(line1Pattern); });
 				if (enable && fileLines[line1Index].includes('true') || !enable && fileLines[line1Index].includes('false')) console.log('Transparent has already been set to ' + (enable ? 'true' : 'false') + '!');
 				else {
-					fileLines[line1Index] = '      transparent: ' + (enable ? 'true' : 'false') + ',';
+					fileLines[line1Index] = '    transparent: ' + (enable ? 'true' : 'false') + ',';
 					console.log('Transparent successfully set to ' + enable + '!');
 				}
 				
@@ -78,7 +82,7 @@ var TransparencyPatcher = (function() {
 				if (enable && !fileLines[line3Index + 1].includes(line3ToRemove) || !enable && fileLines[line3Index + 1].includes(line3ToRemove)) console.log('Background color has already been ' + (enable ? 'removed' : 'added') + '!');
 				else {
 					if (enable) fileLines.splice(line3Index + 1, 1);
-					else if (!enable) fileLines.splice(line3Index + 1, 0, '      ' + line3ToRemove);
+					else if (!enable) fileLines.splice(line3Index + 1, 0, '    ' + line3ToRemove);
 					console.log('Background color successfully ' + (enable ? 'removed' : 'added') + '!');
 				}
 				
