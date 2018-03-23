@@ -5,6 +5,19 @@
 	background: transparent !important;
 }
 
+/* fix not having a background image anymore */
+.layers-20RVFW, .layer-kosS71, .container-2OU7Cz, .typing-3eiiL_ {
+  background: transparent !important;
+}
+/* optionally adjust background brightness (0: original image, 1: black) */
+.layers-20RVFW {
+  background: rgba(0,0,0, 0.01) !important;
+}
+
+.header-1tSljs {
+	box-shadow: none;
+}
+
 .chat .messages { /* with new titlebar margin-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); */
 	border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
@@ -24,6 +37,10 @@
 .title-qAcLxz,
 .theme-dark .chat form {
   background: transparent !important;
+}
+
+.container-3lnMWU {
+	background: rgba(0, 0, 0, 0.5) !important;
 }
 
 .platform-win .container-2oOGIt {
@@ -281,24 +298,21 @@ a {
 }
 
 /* change color of popout menu */
-.popout-menu {
+.menu-3BZuDT {
 	background: rgba(0, 0, 0, 0.7);
 }
 
-.popout-menu .popout-menu-item:hover {
-	background-color: rgba(255, 255, 255, 0.1);
-}
-
-.popout-menu .popout-menu-separator {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.popout-menu .popout-menu-item {
+.item-rK1j5B {
 	color: rgba(255, 255, 255, 0.9);
 }
 
-.popout-menu .popout-menu-item:hover {
+.item-rK1j5B:hover {
+	background-color: rgba(255, 255, 255, 0.1);
 	color: rgba(255, 255, 255, 0.7);
+}
+
+.separator-1hpa3S {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .popout-menu .popout-menu-item.invite {
@@ -313,9 +327,135 @@ a {
  	background-image: url(https://i.imgur.com/pK8BHqq.png) !important;
 }
 
+/* server invite code menu */
+.inviteModal-1di4Hk .scroller {
+	background: rgba(25, 25, 25, 0.0);
+}
+
+.inviteModal-1di4Hk .inviteTitle-2yNtkC {
+	color: rgba(255, 98, 98, 0.9);
+}
+
+.inviteModal-1di4Hk .inviteBody-1kVhyx {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.lookFilled-luDKDo.colorGreen-22At8E {
+	background: rgba(67, 181, 129, 0.7);
+}
+
+.lookFilled-luDKDo.colorGreen-22At8E:hover {
+	background: rgba(67, 181, 129, 0.9);
+}
+
+.inviteModal-1di4Hk .inviteCancel-2dlgcH {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.instant-invite-modal {
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.form.deprecated .form-header {
+	background: rgba(0, 0, 0, 0.0);
+}
+
+.form.deprecated .form-inner {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+#instant-invite-modal .form-actions {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.clipboard-input-inner {
+	background: rgba(100, 100, 100, 0.3);
+	border: none;
+}
+
+input {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+#instant-invite-modal .clipboard-input-inner input {
+	color: rgba(255, 98, 98, 0.7);
+}
+
+#instant-invite-modal .copy {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+#instant-invite-modal .copy:hover {
+	background-color: rgba(255, 98, 98, 0.9);
+}
+
+.checkbox .checkbox-inner+span {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+#instant-invite-modal .form-header header {
+	color: rgba(255, 98, 98, 0.7);
+}
+
+#instant-invite-modal .blurb {
+	color: rgba(255, 255, 255, 0.5);
+	opacity: 1.0;
+}
+
+#instant-invite-modal .expire-text {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+#instant-invite-modal .checkbox .checkbox-inner span {
+	border-color: rgba(255, 255, 255, 0.7);
+}
+
+#instant-invite-modal .checkbox .checkbox-inner input:checked+span {
+	border-color: rgba(255, 98, 98, 0.0);
+}
+
+.clipboard-input-inner button:first-of-type:before {
+  display: none !important;
+}
+
+.clipboard-input-inner button {
+	border: none;
+}
+
+#instant-invite-modal-advanced .form-actions {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.form.deprecated .control-group .help-text {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+#instant-invite-modal-advanced .checkbox .checkbox-inner span {
+	border-color: rgba(255, 255, 255, 0.7);
+}
+
+#instant-invite-modal-advanced .checkbox .checkbox-inner input:checked+span {
+	border-color: rgba(255, 98, 98, 0.0);
+}
+
+.form.deprecated .btn-primary:hover {
+	background-color: rgba(255, 98, 98, 0.9);
+}
+
+#instant-invite-modal-advanced .form-actions .btn-default {
+	color: rgba(255, 255, 255, 0.5);
+	border: none;
+}
+
+#instant-invite-modal-advanced .form-actions .btn-default:hover {
+	color: rgba(255, 255, 255, 0.7);
+	border: none;
+}
+
 /* leave server popup */
 .theme-dark .modal-3HOjGZ {
 	background-color: rgba(0, 0, 0, 0.5);
+	box-shadow: none;
 }
 
 .theme-dark .primary-2giqSn {
@@ -533,6 +673,15 @@ a {
 	margin-left: 8px;
 }
 
+/*                                                            Voice Channel                                                           */
+.nameDefault-1I0lx8 {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.nameSpeaking-3ROx9q {
+	text-shadow: 0px 0px 5px rgba(67, 181, 129, 0.9);
+}
+
 /*                                                                 Chat                                                               */
 .chat .title-wrap {
     background: rgba(0, 0, 0, calc(1 / 255)) !important;
@@ -667,6 +816,11 @@ a {
 	border-color: rgba(0, 0, 0, 0.0);
 }
 
+.theme-dark .wrapper-uAa07y {
+	border: none;
+	border-radius: 8px;
+}
+
 /* change color of code blocks */
 .theme-dark .message-group .comment .markup pre {
 	background: transparent;
@@ -681,8 +835,21 @@ a {
 }
 
 /* change color of embeds */
-.theme-dark .message-group .embed-wrapper .embed-color-pill {
+.theme-dark .embedPill-3sYS1X {
 	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .embedInner-t4ag7g {
+	background-color: rgba(0, 0, 0, 0.1);
+	border: none;
+}
+
+.embedProvider-1KNREX {
+	color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-dark .embedTitleLink-1IGDvg {
+	color: rgba(255, 98, 98, 0.9) !important;
 }
 
 /* change color of new messages divider */
@@ -726,13 +893,29 @@ a {
 	color: #ff6262;
 }
 
+/* more options menu */
+.small-popout-box {
+	background: rgba(0, 0, 0, 0.5);
+	border: none;
+}
+
+.option-popout .btn-item:hover {
+	background: rgba(100, 100, 100, 0.3);
+	color: rgba(255, 255, 255, 0.9);
+}
+
 /* attachments */
 .spinner-wandering-cubes .spinner-item {
 	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.message-group .comment .attachment .metadata {
-	color: hsla(0, 0%, 100%, 0.4);
+.theme-dark .attachment-1Vom9D {
+	border: none;
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.metadata-2t2-gW {
+	color: rgba(255, 255, 255, 0.4);
 }
 
 .upload-modal {
@@ -924,10 +1107,56 @@ a {
 }
 
 /* change color of profiles */
-.headerNormal-1cioxU {
- 	background: rgba(255, 98, 98, 0.7) url(http://i.imgur.com/Nx6nm4H.png);
-    background-size: 270px 213px;
-	opacity: 1;
+.userPopout-11hFKo {
+	box-shadow: none;
+}
+
+.theme-dark .headerNormal-3Vn9nT {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .body-3ljq11 {
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.theme-dark .footer-2wFs91 {
+	background: rgba(0, 0, 0, 0.7);
+	border: none;
+}
+
+.theme-dark .quickMessage-OCo-Q0 {
+	background: rgba(100, 100, 100, 0.3);
+	border: none;
+}
+
+.bodyTitle-18hsd9 {
+	color: rgba(255, 98, 98, 0.9);
+}
+
+.headerPlaying-2Q7mBy {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.headerPlaying-2eYqm9 {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.lookInverted-2lPGe7.colorBrand-3PmwCE {
+	background: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 98, 98, 0.9);
+}
+
+.userPopout-4pfA0d {
+	box-shadow: none;
+}
+
+.theme-dark .body-3rkFrF {
+	background-color: rgba(0, 0, 0, 0.7);
+	border-bottom: 0px;
+}
+
+.theme-dark .footer-2J5zqP {
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .avatarNormal-3luwna {
@@ -951,11 +1180,6 @@ a {
  	color: hsla(0, 0%, 100%, 0.7);
 }
 
-.body-3rkFrF {
-	background-color: rgba(0, 0, 0, 0.7);
-	border-bottom: 0px;
-}
-
 .bodyTitleIconForeground-itKW-t {
 	fill: rgba(255, 98, 98, 0.7);
 }
@@ -972,9 +1196,24 @@ a {
 	background-color: rgba(255,  255,  255, 0.10);
 	border: 1px solid rgba(255,  255,  255, 0.10);
 }
-	
+
+.theme-dark .rolesList-2YHFg5 .member-role {
+	background-color: rgba(255, 98, 98, 0.0980392);
+	border: 1px solid rgba(255, 98, 98, 0.498039);
+	color: rgba(255, 98, 98, 1.0);
+}
+
+.member-roles .member-role.member-role-add button {
+	background-image: url(https://i.imgur.com/5jd7gA0.png);
+}
+
 .footer-2J5zqP {
 	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.discriminator {
+	font-size: 13px;
+	margin-left: 3px;
 }
 
 .quick-message {
@@ -984,6 +1223,31 @@ a {
 }
 
 /* large profiles */
+.topSectionPlaying-3jAH9b {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .body-3_tdh6 {
+	background-color: rgba(50, 50, 50, 0.7);
+}
+
+.connectedAccount-3mKaTA {
+	border: none;
+	background-color: rgba(100, 100, 100, 0.5);
+}
+
+.buttonBrandInverted-VFL7Yc {
+	color: rgba(255, 98, 98, 0.9);
+}
+
+.topSectionNormal-2LlRG1 {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.listAvatar-MpHQ5z {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
 #user-profile-modal .header {
 	background-color: rgba(0, 0, 0, 0.5);
 	background-image: none;
@@ -1072,12 +1336,20 @@ a {
 }
 
 /*                                                           Context Menu                                                         */
-.context-menu {
+.theme-dark.contextMenu-uoJTbz {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.theme-dark .item-1XYaYf {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.theme-dark .item-1XYaYf:hover {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.context-menu .item {
-	color: rgba(255, 255, 255, 0.7);
+.theme-dark .itemSubMenu-3ZgIw- {
+	background: rgba(0, 0, 0, 0.0);
 }
 
 /*                                                    File Upload Drag and Drop                                                   */
@@ -1577,6 +1849,18 @@ a {
 	border-color: rgba(0, 0, 0, 0.0);
 }
 
+.search-bar-tag {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.private-channel-recipients-invite .footer button {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.private-channel-recipients-invite .footer button:hover {
+	background-color: rgba(255, 98, 98, 0.9);
+}
+
 .buttonRedFilled-1NjJNj {
 	background-color: rgba(255, 98, 98, 0.7);
 }
@@ -1587,6 +1871,24 @@ a {
 
 .slider-bar-fill {
 	background: rgba(255, 98, 98, 0.7);
+}
+
+.slider-handle {
+	border: 1px solid rgba(0, 0, 0, 0.0);
+}
+
+.slider-handle span {
+	background-color: rgba(255, 98, 98, 0.7);
+	border: none;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.slider-handle span:before {
+	border-color: rgba(255, 98, 98, 0.0) transparent transparent;
+}
+
+.slider-handle span:after {
+	border-color: rgba(255, 98, 98, 0.7) transparent transparent;
 }
 
 /* voice connection info */
@@ -1615,7 +1917,8 @@ a {
 .account .btn, 
 .account .btn:active, 
 #voice-connection .btn, 
-#voice-connection .btn:active {
+#
+-connection .btn:active {
     background: rgba(100, 100, 100, 0.2);
 }
 
@@ -1734,10 +2037,6 @@ input#help-query ::-webkit-input-placeholder {
 	color: rgba(100, 100, 100, 0.7);
 }
 
-.form.deprecated .form-inner {
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
 .need-help-modal.deprecated .footer {
 	background-color: rgba(0, 0, 0, 0.5);
 	border-top: 0px;
@@ -1840,6 +2139,19 @@ input#help-query ::-webkit-input-placeholder {
 .theme-dark .cardPrimaryOutline-2YyAz2 {
 	border-color: rgba(0, 0, 0, 0.0);
 	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .input-2YozMi.focused-xL_GX6 {
+	border-color: rgba(255, 98, 98, 0.9);
+}
+
+/* my account */
+.lookFilled-luDKDo.colorBrand-3PmwCE {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.lookFilled-luDKDo.colorBrand-3PmwCE:hover {
+	background-color: rgba(255, 98, 98, 0.9);
 }
 
 /* connections */
@@ -1952,6 +2264,18 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 /* change color of settings buttons */
+.side-2nYO0F .itemSelected-3XxAMf {
+	background-color: rgba(255, 98, 98, 0.7) !important;
+}
+
+.theme-dark .itemDefault-3NDwnY[style*="rgb(114, 137, 218);"] {
+	color: rgba(255, 98, 98, 0.7) !important;
+}
+
+.theme-dark .side-2nYO0F .itemDefault-3NDwnY:hover[style*="rgb(114, 137, 218);"] {
+	background-color: rgba(255, 98, 98, 0.1) !important;
+}
+
 .itemDefaultSelected-1UAWLe {
  	background-color: rgba(255, 98, 98, 0.7);
 }
@@ -2440,6 +2764,25 @@ input#help-query ::-webkit-input-placeholder {
 .tp-disable:hover {
 	color: rgba(255, 255, 255, 0.9);
 	background-color: rgba(50, 50, 50, 0.9);
+}
+
+/*                                                          Code Block Titles                                          */
+.message-group .comment .markup pre code:before {
+	color: rgba(255, 98, 98, 0.7);
+	background-color: rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0px;
+	margin: 0px -7px 5px -7px;
+	padding-bottom: 2px;
+}
+
+
+.theme-dark .hljs {
+	padding-top: 0px;
+}
+
+.theme-dark code[class$="hljs"] {
+  padding-top: 4px;
 }
 
 /*                                                    Plugin Update Notification Bar                                   */
