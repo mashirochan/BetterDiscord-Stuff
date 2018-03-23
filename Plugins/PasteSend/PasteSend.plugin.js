@@ -34,7 +34,7 @@ var PasteSend = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.4"; }
+		getVersion() { return "1.0.5"; }
 
 		load() {
 			this.checkForUpdate();
@@ -56,7 +56,7 @@ var PasteSend = (function() {
 					}
 				);
 			});
-			if (document.querySelector(".app")) this.serverContextObserver.observe(document.querySelector(".app"), {childList: true});
+			if (document.querySelector("#app-mount")) this.serverContextObserver.observe(document.querySelector("#app-mount"), {childList: true});
 			
 			BdApi.clearCSS(this.stylesheet_name);
 			BdApi.injectCSS(this.stylesheet_name, this.stylesheet);
