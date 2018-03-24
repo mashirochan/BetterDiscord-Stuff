@@ -20,7 +20,7 @@ var TransparencyPatcher = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.1"; }
+		getVersion() { return "1.0.2"; }
 
 		load() {
 			this.checkForUpdate();
@@ -52,7 +52,7 @@ var TransparencyPatcher = (function() {
 			let line2ToAdd = '_electron.app.commandLine.appendSwitch(\'enable-transparent-visuals\');';
 			
 			let line3Pattern = 'title: \'Discord\',';
-			let line3ToRemove = 'backgroundColor: ACCOUNT_GREY,';
+			let line3ToRemove = 'backgroundColor:';
 
 			var fs = require("fs");
 			fs.readFile(file, "utf8", (err, data) => {
@@ -82,7 +82,7 @@ var TransparencyPatcher = (function() {
 				if (enable && !fileLines[line3Index + 1].includes(line3ToRemove) || !enable && fileLines[line3Index + 1].includes(line3ToRemove)) console.log('Background color has already been ' + (enable ? 'removed' : 'added') + '!');
 				else {
 					if (enable) fileLines.splice(line3Index + 1, 1);
-					else if (!enable) fileLines.splice(line3Index + 1, 0, '    ' + line3ToRemove);
+					else if (!enable) fileLines.splice(line3Index + 1, 0, '    ' + 'backgroundColor: \'#2f3136\',');
 					console.log('Background color successfully ' + (enable ? 'removed' : 'added') + '!');
 				}
 				
