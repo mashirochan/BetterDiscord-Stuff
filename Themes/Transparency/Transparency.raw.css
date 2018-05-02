@@ -909,7 +909,7 @@ input {
 	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .attachment-1Vom9D {
+.theme-dark .attachment-33OFj0 {
 	border: none;
 	background: rgba(0, 0, 0, 0.3);
 }
@@ -994,7 +994,7 @@ input {
 }
 
 /* change color of autocomplete menu */
-.theme-dark .autocomplete-1TnWNR {
+.theme-dark .autocomplete-1vrmpx {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -1115,7 +1115,7 @@ input {
 	background: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .body-3ljq11 {
+.theme-dark .body-3iLsc4 {
 	background: rgba(0, 0, 0, 0.7);
 }
 
@@ -1129,7 +1129,7 @@ input {
 	border: none;
 }
 
-.bodyTitle-18hsd9 {
+.bodyTitle-Y0qMQz {
 	color: rgba(255, 98, 98, 0.9);
 }
 
@@ -1227,7 +1227,7 @@ input {
 	background: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .body-3_tdh6 {
+.theme-dark .body-3ND3kc {
 	background-color: rgba(50, 50, 50, 0.7);
 }
 
@@ -1994,7 +1994,7 @@ input {
 }
 
 /* change color of AKA tag */
-.aka-2Ba14Z {
+.aka-1mqp34 {
  	background: rgba(255, 98, 98, 0.7);
 }
 
@@ -2002,7 +2002,7 @@ input {
  	background: rgba(255, 98, 98, 0.7);
 }
 
-.botTagInvert-gorWR_ {
+.botTagInvert-18-95s {
 	background: rgba(255, 183, 197, 0.7);
 	color: #fff !important;
 }
@@ -2013,11 +2013,11 @@ input {
     display: none;
 }
 
-.theme-dark .formNotice-2_hHWR .margin-bottom-40 .cardPrimary-ZVL9Jr .card-3DrRmC {
+.theme-dark .formNotice-2_hHWR .margin-bottom-40 .cardPrimary-1Hv-to .card-3Qj_Yx {
 	display: none !important;
 }
 
-.cardWarning-31DHBH, .cardWarningOutline-2Rp1Zn {
+.cardWarning-2yPNAa, .cardWarningOutline-1cs56O {
 	display: none !important;
 }
 
@@ -2107,27 +2107,27 @@ input#help-query ::-webkit-input-placeholder {
 	background: rgba(0, 0, 0, 0.0);
 }
 
-.theme-dark .cardPrimary-ZVL9Jr {
+.theme-dark .cardPrimary-1Hv-to {
 	background-color: rgba(0, 0, 0, 0.5);
 	border-color: rgba(0, 0, 0, 0.0);
 }
 
-.theme-dark .cardPrimaryEditable-2IQ7-V {
+.theme-dark .cardPrimaryEditable-3KtE4g {
 	background-color: rgba(0, 0, 0, 0.3);
 	border-color: rgba(0, 0, 0, 0.0);
 }
 
-.theme-dark .cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(240, 71, 71);"] {
+.theme-dark .cardPrimaryEditable-3KtE4g[style*="background-color: rgb(240, 71, 71);"] {
 	background-color: rgba(240, 71, 71, 0.7) !important;
 	border-color: rgba(0, 0, 0, 0.0) !important;
 }
 
-.theme-dark .cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(250, 166, 26);"] {
+.theme-dark .cardPrimaryEditable-3KtE4g[style*="background-color: rgb(250, 166, 26);"] {
 	background-color: rgba(250, 166, 26, 0.7) !important;
 	border-color: rgba(0, 0, 0, 0.0) !important;
 }
 
-.theme-dark .cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(67, 181, 129);"] {
+.theme-dark .cardPrimaryEditable-3KtE4g[style*="background-color: rgb(67, 181, 129);"] {
 	background-color: rgba(67, 181, 129, 0.7) !important;
 	border-color: rgba(0, 0, 0, 0.0) !important;
 }
@@ -2136,7 +2136,7 @@ input#help-query ::-webkit-input-placeholder {
 	color: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .cardPrimaryOutline-2YyAz2 {
+.theme-dark .cardPrimaryOutline-29Ujqw {
 	border-color: rgba(0, 0, 0, 0.0);
 	background-color: rgba(0, 0, 0, 0.3);
 }
@@ -2216,11 +2216,11 @@ input#help-query ::-webkit-input-placeholder {
 	color: rgba(255, 255, 255, 0.5);
 }
 
-.theme-dark .bubble-17BwqU {
+.theme-dark .bubble-3we2di {
 	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .bubble-17BwqU:before {
+.theme-dark .bubble-3we2di:before {
 	border-top-color: rgba(255, 98, 98, 0.7);
 }
 
@@ -2304,11 +2304,11 @@ input#help-query ::-webkit-input-placeholder {
  	background-color: #ff5252;
 }
 
-.theme-dark .bar-2cFRGz {
+.theme-dark .bar-2Qqk5Z {
 	background: rgba(79, 84, 92, 0.7);
 }
 
-.barFill-18ABna {
+.barFill-23-gu- {
  	background-color: rgba(255, 98, 98, 0.7);
 }
 
@@ -2493,7 +2493,7 @@ input#help-query ::-webkit-input-placeholder {
     transform: translateX(20px);
 }
 
-.cardPrimaryEditable-2IQ7-V[style*="background-color: rgb(114, 137, 218);"],
+.cardPrimaryEditable-3KtE4g[style*="background-color: rgb(114, 137, 218);"],
 .radio-item.checked[style*="background-color: rgb(114, 137, 218);"],
 .theme-light .ui-card-primary.checked {
     background-color: rgba(255, 98, 98, 0.7) !important;
