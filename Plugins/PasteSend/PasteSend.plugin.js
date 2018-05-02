@@ -34,7 +34,7 @@ var PasteSend = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.5"; }
+		getVersion() { return "1.0.6"; }
 
 		load() {
 			this.checkForUpdate();
@@ -73,7 +73,7 @@ var PasteSend = (function() {
 		}
 
 		onContextMenu(context) {
-			if ($('.label-2CGfN3').length) {
+			if ($('.label-JWQiNe').length) {
 				$(context).append(this.serverContextEntryMarkup);
 			}
 		}
@@ -89,7 +89,7 @@ var PasteSend = (function() {
 			$('*').off('.PasteSend');
 			$('*').off('.PasteSendChange');
 
-			$('#app-mount').on('keydown.PasteSend', '.textArea-20yzAH', e => {
+			$('#app-mount').on('keydown.PasteSend', '.textArea-2Spzkt', e => {
 				if (!canUse || storageKeys.length < 1) return;
 				if (!keys.includes(e.key)) keys.push(e.key);
 				if (storageKeys.every(storageKey => keys.includes(storageKey))) {
@@ -101,7 +101,7 @@ var PasteSend = (function() {
 				}
 			});
 			
-			$('#app-mount').on('keyup.PasteSend', '.textArea-20yzAH', e => {
+			$('#app-mount').on('keyup.PasteSend', '.textArea-2Spzkt', e => {
 				keys.splice(keys.indexOf(e.key), 1);
 			});
 			
@@ -113,7 +113,7 @@ var PasteSend = (function() {
 			let clipboardText = require('electron').clipboard.readText();
 			if (pasteType == 'Replace') text = clipboardText;
 			else if (pasteType == 'Append') {
-				text = $('.textArea-20yzAH').val();
+				text = $('.textArea-2Spzkt').val();
 				storageKeys.every(storageKey => {
 					if (storageKey.length == 1) text = text.substring(0, text.lastIndexOf(storageKey, clipboardText.length));
 				});
