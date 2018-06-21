@@ -34,7 +34,7 @@ var PasteSend = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.6"; }
+		getVersion() { return "1.0.7"; }
 
 		load() {
 			this.checkForUpdate();
@@ -74,6 +74,7 @@ var PasteSend = (function() {
 
 		onContextMenu(context) {
 			if ($('.label-JWQiNe').length) {
+				$('.ps-item').remove();
 				$(context).append(this.serverContextEntryMarkup);
 			}
 		}
@@ -119,24 +120,21 @@ var PasteSend = (function() {
 				});
 				if (!storageKeys.includes("V") || !storageKeys.includes("Control") || inputType == 'context') text += clipboardText;
 			}
-			let textarea = document.querySelector('[class*="innerEnabled"]');
-			if (textarea) {
-				let textinput = textarea.querySelector("textarea");
-				if (textinput) {
-					textinput.focus();
-					textinput.selectionStart = 0;
-					textinput.selectionEnd = textinput.value.length;
-					document.execCommand("insertText", false, text);
-					let options = { key: "Enter", code: "Enter", which: 13, keyCode: 13, bubbles: true };
-					let down = new KeyboardEvent("keydown", options);
-					Object.defineProperty(down, "keyCode", {value: 13});
-					Object.defineProperty(down, "which", {value: 13});
-					let press = new KeyboardEvent("keypress", options);
-					Object.defineProperty(press, "keyCode", {value: 13});
-					Object.defineProperty(press, "which", {value: 13});
-					textinput.dispatchEvent(down);
-					textinput.dispatchEvent(press);
-				}
+			let textinput = document.querySelector("textarea");
+			if (textinput) {
+				textinput.focus();
+				textinput.selectionStart = 0;
+				textinput.selectionEnd = textinput.value.length;
+				document.execCommand("insertText", false, text);
+				let options = { key: "Enter", code: "Enter", which: 13, keyCode: 13, bubbles: true };
+				let down = new KeyboardEvent("keydown", options);
+				Object.defineProperty(down, "keyCode", {value: 13});
+				Object.defineProperty(down, "which", {value: 13});
+				let press = new KeyboardEvent("keypress", options);
+				Object.defineProperty(press, "keyCode", {value: 13});
+				Object.defineProperty(press, "which", {value: 13});
+				textinput.dispatchEvent(down);
+				textinput.dispatchEvent(press);
 			}
 		}
 
