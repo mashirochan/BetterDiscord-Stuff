@@ -9,6 +9,38 @@
 .layers-3iHuyZ, .layer-3QrUeG, .container-2lgZY8, .typing-2GQL18 {
   background: transparent !important;
 }
+
+.theme-dark .headerBar-UHpsPw {
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: none;
+	border-radius: 0px 8px 0px 0px;
+}
+
+.theme-dark .title-3qD0b- {
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: none;
+	border-radius: 0px 8px 0px 0px;
+}
+
+.header-2o-2hj {
+	box-shadow: none;
+}
+
+.theme-dark .noChannel-Z1DQK7 {
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 0px 8px 8px 0px;
+}
+
+.theme-dark .members-1998pB {
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 0px 0px 8px 0px;
+}
+
+.channels-Ie2l6A {
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 8px 0px 0px 8px;
+}
+
 /* optionally adjust background brightness (0: original image, 1: black) */
 .layers-3iHuyZ {
   background: rgba(0,0,0, 0.01) !important;
@@ -100,6 +132,10 @@ div[class*="titleBar-"] div:nth-of-type(4) {
 #friends [class*='flex-'] [class*='flex-']:last-of-type,
 [class*='activityFeed-'] [class*='flex-'] [class*='flex-']:last-of-type { /* with new titlebar margin-right: 98px; */
     margin-right: 98px;
+}
+
+.backdrop-1ocfXc {
+	border-radius: 8px;
 }
 
 .header-toolbar:after {
@@ -497,6 +533,7 @@ input {
 	}
 }
 
+.unread-23Kvxk,
 .unread-1Dp-OI {
 	background-color: rgba(255, 255, 255, 0.7);
 	border-radius: 0px 0px 0px 0px;
@@ -1102,8 +1139,20 @@ input {
 	background-color: rgba(0, 0, 0, 0.0);
 }
 
+.theme-dark .members-1bid1J {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
 .theme-dark .channel-members h2 {
 	color: rgba(255, 255, 255, 0.7);
+}
+
+.theme-dark .member-3W1lQa:hover .content-OzHfo4 {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .member-3W1lQa.popout-open .content-OzHfo4, .theme-dark .member-3W1lQa.popout-open:hover .content-OzHfo4 {
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* change color of profiles */
@@ -1663,6 +1712,60 @@ input {
 	background-color: rgba(100, 100, 100, 0.5);
 }
 
+/*                                                       Activity Feed / Games                                                    */
+.theme-dark .activityFeed-28jde9 {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 8px 8px 8px 2px;
+}
+
+.theme-dark .dockItem-2kQDqg:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.lookFilled-1Gx00P.colorGreen-29iAKY {
+	background: rgba(67, 181, 129, 0.7);
+}
+
+.carousel-JbsNzL {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.article-FleDq5 {
+	background: rgba(0, 0, 0, 0.0);	
+}
+
+.selectedPage-2JQS2s {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.paginationItem-3-MBTL:before {
+	background: rgba(255, 98, 98, 0.7);
+}
+
+.paginationItem-3-MBTL:after {
+	background: linear-gradient(270deg,transparent 0, rgba(0, 0, 0, 0.5));
+}
+
+.theme-dark .card-7JP0BX {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.theme-dark .header-1RC2Wb {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.headerButtonColor-G7_f-V {
+	background-color: rgba(79, 84, 92, 0.5);
+}
+
+.theme-dark .lookFilled-1Gx00P.hoverBrand-1_Fxlk.hasHover-3X1-zV:hover {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .headerText-2niCs_ {
+	border-top-color: rgba(100, 100, 100, 0.5);
+}
+
 /*                                                     Private Messages / Friends                                                 */
 .theme-dark .headerBar-UHpsPw {
 	background: transparent;
@@ -1831,6 +1934,10 @@ input {
 	background-color: rgba(0, 0, 0, 0.7);
 }
 
+.video-3lOWa6 {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
 .theme-dark .system-message .system-message-timestamp {
 	color: rgba(255, 255, 255, 0.4);
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1.0);
@@ -1840,8 +1947,14 @@ input {
 	background-color: rgba(0, 0, 0, 0.0);
 }
 
+.video-1FfuMD {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 0px 8px 0px 0px;
+}
+
 .theme-dark .private-channel-call {
 	background-color: rgba(0, 0, 0, 0.0);
+	padding-bottom: 1px;
 }
 
 .theme-dark .private-channel-call.minimum .private-channel-call-actions .center {
