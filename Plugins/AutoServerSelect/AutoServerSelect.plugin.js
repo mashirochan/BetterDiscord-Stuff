@@ -9,7 +9,7 @@ var AutoServerSelect = (function() {
 
 		getAuthor() { return "Mashiro-chan"; }
 
-		getVersion() { return "1.0.3"; }
+		getVersion() { return "1.0.4"; }
 
 		load() {
 			this.checkForUpdate();
@@ -17,13 +17,15 @@ var AutoServerSelect = (function() {
 
 		start() {
 			let server = bdPluginStorage.get("AutoServerSelect", "server");
-			if (!server || server == '') return;
 			
 			if (!$('.guild-inner a[href^="' + server + '"]').length) console.error('AutoServerSelect: server cannot be found!');
-			else $('.guild-inner a[href^="' + server + '"]')[0].click();
+			else {
+				console.log('Auto-selecting server: ' + server);
+				$('.guild-inner a[href^="' + server + '"]')[0].click();
+			}
 			
-			$('#app-mount').on('click.AutoServerSelect', 'a.avatar-small', (e) => {
-				let server = $(e.target).attr('href');
+			$('#app-mount').on('click.AutoServerSelect', '.guild-inner a', (e) => {
+				let server = $(e.target)[0].baseURI;
 				if (server === undefined) return;
 				server = server.match(/\/channels\/[0-9]+\//g);
 				bdPluginStorage.set("AutoServerSelect", "server", server);
