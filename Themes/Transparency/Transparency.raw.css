@@ -779,7 +779,6 @@ input {
 
 /* edit chat avatars */
 .avatar-large {
-	display: inline;
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	height: 50px;
 	width: 50px;
