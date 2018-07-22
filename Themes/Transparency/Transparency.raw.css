@@ -33,7 +33,7 @@
 
 .theme-dark .members-1998pB {
 	background: rgba(0, 0, 0, 0.5);
-	border-radius: 0px 0px 8px 0px;
+	border-radius: 0px 8px 8px 0px;
 }
 
 .channels-Ie2l6A {
@@ -200,7 +200,9 @@ body {
 }
 
 /*                                                                 Links                                                    */
-.app a, .connecting a {
+.app a,
+.connecting a,
+.theme-dark .markup-2BOw-j a {
 	color: #ff6262;
 }
 
@@ -218,6 +220,12 @@ a {
 
 .content-8biNdB a {
 	color: #ff6262;
+}
+
+/*                                                      BetterDiscord Toast Notifications                                         */
+.bd-toast {
+	background: rgba(255, 98, 98, 0.7);
+	box-shadow: none;
 }
 
 /*                                                                 Guilds Menu                                                    */
@@ -685,10 +693,7 @@ input {
     background: rgba(0, 0, 0, 0.15) !important;
 }
 
-.callout-backdrop {
-	background-color: rgba(0, 0, 0, 0.7) !important;
-	margin-left: 70px;
-	margin-top: 56px;
+.backdrop-1wrmKB {
 	border-radius: 8px;
 }
 
@@ -751,34 +756,32 @@ input {
 }
 
 /* change font and size in channel chat */
-.theme-dark .message-group .comment .markup {
-    font-size: 85%;
-    font-family: "Tahoma", Geneva, sans-serif;
+.theme-dark .markup-2BOw-j {
+    font-size: 0.9975rem;
+	margin-left: 10px;
 }
 
 /* change font and size in text box */
 .textArea-2Spzkt {
-    font-size: 90%;
- 	font-family: "Tahoma", Geneva, sans-serif;
-    letter-spacing: 0.0rem;
+    font-size: 0.9975rem;
 }
 
 /* add drop shadow to text */
-.message-group .comment .markup {
+.theme-dark .markup-2BOw-j {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
-.theme-dark .message-group h2 strong {
+.theme-dark .username-_4ZSMR {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
-.theme-dark .message-group h2 .timestamp {
+.theme-dark .timestampCozy-2hLAPV {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 	color: hsla(0, 0%, 100%, 0.4);
 }
 
 /* edit chat avatars */
-.avatar-large {
+.large-3ChYtB {
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	height: 50px;
 	width: 50px;
@@ -786,8 +789,9 @@ input {
 }
 
 /* lower spacing between messages */
-.message-group {
+.containerCozy-jafyvG {
 	padding: 10px 0px;
+	min-height: 70px;
 }
 
 /* change highlight color */
@@ -811,23 +815,33 @@ input {
 }
 
 /* change color of mentions */
-.mention {
+.theme-dark .mention {
  	color: #ff6262;
 }
 
-.mention:hover {
+.theme-dark .mention:hover {
 	background-color: #ff6262;
 }
 
-.mentioned .mention:hover {
+.theme-dark .mentioned .mention:hover {
  	color: #ff3232;
+}
+
+.theme-dark .wrapper-3WhCwL {
+	color: #ff6262;
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.theme-dark .wrapper-3WhCwL:hover {
+	color: #fff;
+	background-color: rgba(255, 98, 98, 1.0);
 }
 
 .theme-dark .message-group .comment .markup .mention:hover {
 	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.message-group .mentioned .message-text:after {
+.theme-dark .message-group .mentioned .message-text:after {
  	border-left: 4px solid #ff6262;
 	background: rgba(255, 183, 197, 0.2);
 }
@@ -858,15 +872,19 @@ input {
 }
 
 /* change color of code blocks */
-.theme-dark .message-group .comment .markup pre {
+.theme-dark .markup-2BOw-j pre {
 	background: transparent;
-	border-color: rgba(0, 0, 0, 0.6);
+	border: none;
 	white-space: pre;
 	overflow-x: auto;
 }
 
-.theme-dark .message-group .comment .markup code.inline,
-.theme-dark .message-group .comment .markup pre code {
+.theme-dark .markup-2BOw-j code.inline {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 3px 5px;
+}
+
+.theme-dark .markup-2BOw-j code {
 	background: rgba(0, 0, 0, 0.5);
 }
 
@@ -1079,8 +1097,23 @@ input {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.bda-dark .emoji-picker .header .search-bar {
+.bda-dark .emojiPicker-3m1S-j {
+	background-color: rgba(0, 0, 0, 0.5);
+	border: none;
+}
+
+.bda-dark .emojiPicker-3m1S-j .header-1nkwgG .search-bar {
 	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.emojiPicker-3m1S-j .stickyHeader-1SS0JU {
+	background: rgba(0, 0, 0, 0.9);
+	border-radius: 8px 0px 0px 8px;
+}
+
+.bda-dark .emojiPicker-3m1S-j .category-2U57w6 {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 8px 0px 0px 8px;
 }
 
 .bda-dark .emoji-picker .category {
@@ -1094,6 +1127,10 @@ input {
 }
 
 .emoji-picker .categories .item.selected {
+	border-bottom-color: rgba(255, 98, 98, 0.7);
+}
+
+.emojiPicker-3m1S-j .categories-1feg4n .item-16cXuq.selected-39BZ4S {
 	border-bottom-color: rgba(255, 98, 98, 0.7);
 }
 
@@ -1401,14 +1438,79 @@ input {
 }
 
 /*                                                    File Upload Drag and Drop                                                   */
-.upload-drop-modal .bgScale {
-	background: rgba(255, 98, 98, 0.7);
+.uploadModal-2ifh8j {
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.uploadModal-2ifh8j .inner-3nWsbo {
+	border-color: rgba(255, 98, 98, 0.7);
+}
+
+.uploadModal-2ifh8j .inner-3nWsbo .file-34mY5K .icon-kyxXVr.image-2yrs5j {
+	border-color: rgba(255, 98, 98, 0.6);
+}
+
+.uploadModal-2ifh8j .footer-3mqk7D {
+	background-color: rgba(255, 98, 98, 0.0);
+}
+
+.uploadModal-2ifh8j .footer-3mqk7D .button {
+	background-color: rgba(255, 98, 98, 0.7);
+	-webkit-transition: none;
+}
+
+.uploadModal-2ifh8j .footer-3mqk7D .button:hover {
+	background-color: rgba(255, 98, 98, 0.9);
+	text-decoration: none;
+}
+
+.uploadModal-2ifh8j .footer-3mqk7D .button-primary {
+	background-color: rgba(60, 163, 116, 0.7);
+	color: rgba(255, 255, 255, 1.0);
+	-webkit-transition: none;
+	margin-left: 4px;
+}
+
+.uploadModal-2ifh8j .footer-3mqk7D .button-primary:hover {
+	background-color: rgba(60, 163, 116, 0.9);
+	opacity: 1;
 }
 
 .context-menu .item:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 	color: rgba(255, 255, 255, 0.7);
 }
+
+/*                                                          Audio Upload                                                          */
+.theme-dark .wrapperAudio-1jDe0Q {
+	background-color: rgba(0, 0, 0, 0.3);
+	border: none;
+}
+
+.audioControls-2HsaU6 {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mediaBarProgress-1xaPtl:before,
+.mediaBarProgress-1xaPtl,
+.mediaBarProgress-1xaPtl:after {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.mediaBarInteraction-37i2O4:hover .mediaBarGrabber-1FqnbN,
+.mediaBarInteractionDragging-2QurIZ .mediaBarGrabber-1FqnbN {
+	background-color: rgba(255, 98, 98, 0.9);
+}
+
+.audioMetadata-3zOuGv .metadataIcon-2FyCKU {
+	color: rgba(255, 98, 98, 0.7);
+}
+
+.audioMetadata-3zOuGv .metadataIcon-2FyCKU:hover {
+	color: rgba(255, 98, 98, 0.9);
+	opacity: 1;
+}
+
 /*                                                         Pinned Messages                                                        */
 .theme-dark .messages-popout-wrap .messages-popout .message-group {
 	background-color: rgba(0, 0, 0, 0.3);
@@ -2507,7 +2609,7 @@ input#help-query ::-webkit-input-placeholder {
 
 .ui-standard-sidebar-view .bda-slist li {
 	background: rgba(0, 0, 0, 0.5);
-	border-bottom: 0px;
+	border: none;
 	border-radius: 8px;
 	margin-bottom: 4px;
 }
@@ -2516,9 +2618,41 @@ input#help-query ::-webkit-input-placeholder {
 	color: rgba(255, 255, 255, 0.7);	
 }
 
+.bda-slist .bda-header {
+	border: none;
+	padding-bottom: 0px;
+}
+
+.bda-header-title.da-bdaHeaderTitle {
+	font-size: 15px;
+	margin-left: 8px;
+	margin-bottom: 14px;
+}
+
 .ui-standard-sidebar-view .bda-slist .bda-description {
 	color: rgba(255, 255, 255, 0.5);
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	border: none;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.bda-slist .bda-footer {
+	border: none;
+	padding: 0px;
+}
+
+.bda-slist .bda-footer button {
+	background: rgba(255, 98, 98, 0.7);
+	margin-bottom: 2px;
+}
+
+.bda-slist .bda-footer button:hover {
+	background: rgba(255, 98, 98, 0.9);
+}
+
+#bd-settingspane-container .scroller-wrap .scroller {
+	padding: 0px;
+	margin: 0px 0px 6px 8px;
 }
 
 .bd-pfbtn {
@@ -2879,7 +3013,7 @@ input#help-query ::-webkit-input-placeholder {
 }
 
 /*                                                          Code Block Titles                                          */
-.message-group .comment .markup pre code:before {
+.theme-dark .markup-2BOw-j code:before {
 	color: rgba(255, 98, 98, 0.7);
 	background-color: rgba(0, 0, 0, 0.2);
 	border: none;
