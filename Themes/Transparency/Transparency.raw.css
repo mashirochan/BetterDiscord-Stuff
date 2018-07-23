@@ -758,7 +758,6 @@ input {
 /* change font and size in channel chat */
 .theme-dark .markup-2BOw-j {
     font-size: 0.9975rem;
-	margin-left: 10px;
 }
 
 /* change font and size in text box */
@@ -773,7 +772,6 @@ input {
 
 .theme-dark .username-_4ZSMR {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-	margin-left: 10px;
 }
 
 .theme-dark .timestampCozy-2hLAPV {
@@ -787,6 +785,15 @@ input {
 	height: 50px;
 	width: 50px;
 	background-size: 50px 50px;
+}
+
+.avatar-17mtNa {
+	height: 50px;
+	width: 50px;
+}
+
+.contentCozy-3XX413 {
+	margin-left: 90px;
 }
 
 /* lower spacing between messages */
@@ -815,11 +822,6 @@ input {
 	color: rgba(255, 98, 98, 0.9);
 }
 
-/* images */
-.imageWrapper-2p5ogY img {
-	left: 10px;
-}
-
 /* change color of mentions */
 .theme-dark .mention {
  	color: #ff6262;
@@ -843,13 +845,18 @@ input {
 	background-color: rgba(255, 98, 98, 1.0);
 }
 
-.theme-dark .message-group .comment .markup .mention:hover {
+.theme-dark .isMentioned-N-h9aa .mention:hover {
+	color: #fff;
 	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.theme-dark .message-group .mentioned .message-text:after {
+.isMentionedCozy-3isp7y:after {
  	border-left: 4px solid #ff6262;
 	background: rgba(255, 183, 197, 0.2);
+}
+
+.theme-dark .isMentioned-N-h9aa {
+	background: rgba(255, 183, 197, 0.2) !important;
 }
 
 .theme-dark .message-group .mentioned .message-text,
