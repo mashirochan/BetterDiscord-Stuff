@@ -773,6 +773,7 @@ input {
 
 .theme-dark .username-_4ZSMR {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+	margin-left: 10px;
 }
 
 .theme-dark .timestampCozy-2hLAPV {
@@ -781,7 +782,7 @@ input {
 }
 
 /* edit chat avatars */
-.large-3ChYtB {
+.image-33JSyf.large-3ChYtB.da-image.da-large {
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	height: 50px;
 	width: 50px;
@@ -812,6 +813,11 @@ input {
 
 .theme-dark .reaction.reaction-me .reaction-count {
 	color: rgba(255, 98, 98, 0.9);
+}
+
+/* images */
+.imageWrapper-2p5ogY img {
+	left: 10px;
 }
 
 /* change color of mentions */
