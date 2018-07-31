@@ -229,11 +229,11 @@ a {
 }
 
 /*                                                                 Guilds Menu                                                    */
-.guilds-wrapper {
+.theme-dark .guildsWrapper-5TJh6A {
     background-color: rgba(0, 0, 0, calc(1 / 255)) !important;
 }
 
-.guilds-wrapper .guild-separator:after {
+.theme-dark .guildSeparator-1X4GQ1:after {
 	background: rgba(0, 0, 0, 0.4);
 	left: 5%;
 	right: 5%;
@@ -255,7 +255,7 @@ a {
     }
 }
 
-.guilds-wrapper .guilds .guild.unread {
+.guild-1EfMGQ.unread-qLkInr {
 	border-radius: 25px;
 	background-color: rgba(255, 255, 255, 0.7);
 	box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.7);
@@ -263,19 +263,19 @@ a {
 	animation: fadein 1s;
 }
 
-.guilds-wrapper .guilds .guild.unread:hover {
+.guild-1EfMGQ.unread-qLkInr:hover {
 	border-radius: 15px;
 	box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.7);
 }
 
-.guilds-wrapper .guilds .guild.selected.unread {
+.guild-1EfMGQ.selected-ML3OIq.unread-qLkInr {
 	border-radius: 15px;
 	background-color: rgba(255, 255, 255, 0.7);
 	box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.7);
 	animation: fadein 1s;
 }
 
-.guilds-wrapper .guilds .guild.selected.unread:before {
+.guild-1EfMGQ.selected-ML3OIq.unread-qLkInr:before {
 	height: 40px;
 	border-radius: 20px;
 	margin-top: -20px;
@@ -283,30 +283,36 @@ a {
 	transition: none;
 }
 
-.guilds-wrapper .guilds .guild.unread:before {
+.theme-dark .guild-1EfMGQ.unread-qLkInr:before {
 	background: rgba(0, 0, 0, 0.0);
 }
 
-.guilds-wrapper .guilds .guild.selected:before {
+.theme-dark .guild-1EfMGQ.selected-ML3OIq:before {
 	background: rgba(255, 98, 98, 0.7);
 }
 
 /* change color of friends icon */
-.guilds-wrapper .guilds .guild:first-child .guild-inner {
+.theme-dark .guild-1EfMGQ:first-of-type  .guildInner-3DSoA4 {
 	background: rgba(255, 98, 98, 0.7) !important;
 }
 
-.guilds-wrapper .guilds .guild:not(:first-child) .guild-inner {
+.theme-dark .guild-1EfMGQ:not(:first-of-type) .guildInner-3DSoA4 {
 	background: rgba(255, 98, 98, 0.0) !important;
 }
 
-.guilds-wrapper .guilds .friends-online {
+.theme-dark .friendsOnline-_wi_fM {
 	color: rgba(225, 225, 225, 0.9);
 }
 
 .guilds-wrapper .guilds .guild.audio .guild-inner:after,
 .guilds-wrapper .guilds .guild.video .guild-inner:after {
 	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .guildsAdd-21_IdK {
+	background: rgba(0, 0, 0, 0.5);
+	border-color: rgba(255, 255, 255, 0.5);
+	color: rgba(255, 255, 255, 0.5);
 }
 
 /*                                                                 Channels Menu                                                   */
@@ -686,6 +692,7 @@ input {
 .guild-header.popout-open header {
     background: rgba(0, 0, 0, 0.15);
 }
+
 .guild-channels .channel-text.selected, 
 .guild-channels .channel-text:hover, 
 .private-channels .channel.selected, 
@@ -779,6 +786,15 @@ input {
 	color: hsla(0, 0%, 100%, 0.4);
 }
 
+.theme-dark #friends .tab-bar .tab-bar-item.selected .badge {
+	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .incomingCallInner-2VmFiR {
+	background-color: rgba(0, 0, 0, 0.5);
+	border: none;
+}
+
 /* edit chat avatars */
 .image-33JSyf.large-3ChYtB.da-image.da-large {
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -799,6 +815,7 @@ input {
 /* lower spacing between messages */
 .containerCozy-jafyvG {
 	padding: 10px 0px;
+	margin: 0px;
 	min-height: 70px;
 }
 
@@ -2024,6 +2041,10 @@ input {
 	border: 0px;
 }
 
+.theme-dark .isLocalBot-38G0P0 {
+	box-shadow: none;
+}
+
 /*                                                          Call Error Popop                                                      */
 .theme-dark .themed-popout .header {
 	background-color: rgba(0, 0, 0, 0.0);
@@ -2102,6 +2123,10 @@ input {
 
 .slider-handle {
 	border: 1px solid rgba(0, 0, 0, 0.0);
+}
+
+.theme-dark .wrapper-29NfPK {
+	background-color: rgba(0, 0, 0, 0.0);
 }
 
 .slider-handle span {
