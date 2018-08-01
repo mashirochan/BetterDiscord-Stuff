@@ -32,7 +32,7 @@
 }
 
 .theme-dark .members-1998pB {
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.0);
 	border-radius: 0px 8px 8px 0px;
 }
 
@@ -739,8 +739,16 @@ input {
 .messages-wrapper, 
 .chat form .typing, 
 .chat > .content, 
-.chat {
+.chat,
+.theme-dark .chat-3bRxxu,
+.theme-dark .chat-3bRxxu form,
+.theme-dark .messagesWrapper-3lZDfY {
     background: transparent !important;
+}
+
+.theme-dark .content-yTz4x3 {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 0px 8px 8px 1px;
 }
 
 .chat .content .flex-spacer, 
@@ -2225,24 +2233,38 @@ input {
 }
 
 /* change color of new messages notification */
-.chat .new-messages-bar {
+.newMessagesBar-mujexs {
  	background-color: rgba(255, 98, 98, 0.7);
 }
 
-.chat .new-messages-bar button:last-child {
- 	color: hsla(0, 0%, 100%, 0.6);
-}
-
-.chat .new-messages-bar:hover {
+.newMessagesBar-mujexs:hover {
  	background-color: rgba(255, 98, 98, 0.9);
 }
 
-.theme-dark .chat .jump-to-present-bar {
- 	background-color: rgba(255, 98, 98, 0.8);
+.newMessagesBar-mujexs button:last-child {
+ 	color: hsla(0, 0%, 100%, 0.6);
 }
 
-.theme-dark .chat .jump-to-present-bar:hover {
- 	background-color: rgba(255, 98, 98, 0.8);   
+.theme-dark .jumpToPresentBar-9P20AM {
+ 	background-color: rgba(255, 98, 98, 0.7);
+}
+
+.theme-dark .jumpToPresentBar-9P20AM:hover {
+ 	background-color: rgba(255, 98, 98, 0.9);   
+}
+
+.theme-dark .divider-3gKybi span {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.theme-dark .divider-3gKybi:before {
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.theme-dark .hasMore-3e72_v button {
+	background: rgba(255, 98, 98, 0.3);
+	border: none;
+	color: rgba(255, 255, 255, 0.5);
 }
 
 /* change color of AKA tag */
